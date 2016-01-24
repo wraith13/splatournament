@@ -6,14 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>splatournament</title>
 
+    <!-- angular.js with ui.bootstrap -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-touch.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.0/ui-bootstrap-tpls.min.js" rel="stylesheet"></script>
-    
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
 
+    <!-- onedrive -->
+    <!--
+    <script type="text/javascript" src="https://js.live.net/v5.0/OneDrive.js" id="onedrive-js" client-id="splatournament_public"></script>
+    -->
+    <!--  https://account.live.com/developers/applications -->
+
+    <!-- d3.js -->
     <script src="http://mbostock.github.com/d3/d3.v2.js"></script>
     <style type="text/css">
         .node circle {
@@ -69,6 +76,11 @@
                 </p>
             </div>
 
+            <!--
+            <div id="picker"></div>
+            <br/>
+            -->
+
             <h4>Checkbox</h4>
             <pre>Model: {{checkModel}}</pre>
             <pre>Results: {{checkResults}}</pre>
@@ -97,6 +109,24 @@
     <script type="text/javascript">
 
         angular.module("splatournament", ["ui.bootstrap"]);
+
+        //window.onload = function () {
+        //    var pickerOptions = {
+        //        success: function(files) {
+        //            // Handle returned file object(s)
+        //            alert("You picked " + files.values[0].fileName);
+        //        },
+        //
+        //        cancel: function() {
+        //            // handle when the user cancels picking a file
+        //        },
+        //
+        //        linkType: "webViewLink", // or "downloadLink",
+        //        multiSelect: false // or true
+        //    };
+        //    var pickerButton = OneDrive.createOpenButton(pickerOptions);
+        //    document.getElementById("picker").appendChild(pickerButton);
+        //};
 
         var margin = { top: 30, right: 10, bottom: 10, left: 10 },
             width = 960 - margin.left - margin.right,
