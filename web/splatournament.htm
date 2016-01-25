@@ -91,11 +91,18 @@
             <br/>
             -->
 
-            <h3>entry</h3>
-            <div ng-repeat="entry in entries track by $index">
-                <input type="text" ng-model="entry.name"><button type="button" class='btn btn-default' ng-click="removeEntry($index)">削除</button>
+            <h3>
+                entry
+                <button type="button" class='btn btn-primary btn-sm' ng-click="addEntry()">＋</button>
+            </h3>
+            <div class="form-group" ng-repeat="entry in entries track by $index">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="entry.name" placeholder="name">
+                    <span class="input-group-btn">
+                        <button type="button" class='btn btn-danger' ng-click="removeEntry($index)">✘</button>
+                    </span>
+                </div>
             </div>
-            <button type="button" class='btn btn-default' ng-click="addEntry()">追加</button>
 
             <h3>Checkbox</h3>
             <pre>Model: {{checkModel}}</pre>
