@@ -79,6 +79,7 @@
         <div class="container theme-showcase" role="main" ng-controller="splatornament">
 
             <div class="jumbotron">
+                <div class="alert alert-danger" role="alert" ng-hide="true"><strong>JavaScriptが無効になっています。</strong>このページは JavaScript に強く依存しています。JavaScriptを有効にしてから再読み込みしてください。</div>
                 <h1>splatournament</h1>
                 <p>
                     このツールは Wii U 用ゲームソフト、『スプラトゥーン』で草の根的に行われる
@@ -389,7 +390,6 @@
         //d3.json("bracket.json", update_tournament_tree);
         setTimeout(function () { update_tournament_tree(tournament_tree); }, 0);
         //setTimeout(function () { update_tournament_tree(tournament_tree2); }, 3000);
-
 
         angular.module("splatournament", ["ui.bootstrap"])
         .controller("splatornament", function ($scope) {
