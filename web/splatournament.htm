@@ -405,12 +405,16 @@
             //$scope.change = function () {
             //};
 
-            $scope.entries = [{ name: "", }, ];
+            $scope.entries = [];
             $scope.addEntry = function () {
                 $scope.entries.push({ name: "", });
             }
+            $scope.addEntry();
             $scope.removeEntry = function (index) {
                 $scope.entries.splice(index, 1);
+                if (0 == $scope.entries.length) {
+                    $scope.addEntry();
+                }
             }
 
             $scope.checkResults = [];
