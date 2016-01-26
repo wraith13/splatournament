@@ -58,7 +58,7 @@
         }
     </style>
 </head>
-<body id="body" style="background-color:#EEEEEE;">
+<body id="body" style="background-color:#EEEEEE;"  ng-controller="splatornament">
     <div style="background-color:#FFFFFF;">
         <header class="navbar navbar-inverse navbar-fixed-top navbar-inner">
             <div class="container">
@@ -83,7 +83,7 @@
             </div>
         </header>
 
-        <div class="container theme-showcase" role="main" ng-controller="splatornament">
+        <div class="container theme-showcase" role="main">
 
             <div class="jumbotron">
                 <div class="alert alert-danger" role="alert" ng-hide="true"><strong>JavaScriptが無効になっています。</strong>このページは JavaScript に強く依存しています。JavaScriptを有効にしてから再読み込みしてください。</div>
@@ -120,6 +120,7 @@
     <footer class="footer">
         <div class="container">
             <ul>
+                <li>splatournament ver {{app.version}}</li>
                 <li>&copy; 2016 <a href="https://twitter.com/wraith13">@wraith13</a></li>
                 <li><a href="https://github.com/wraith13/splatournament">github</a></li>
             </ul>
@@ -202,7 +203,7 @@
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
+
         var tournament_tree = {
             "name": "Overall Winner",
             "winners": [
@@ -404,7 +405,10 @@
 
         angular.module("splatournament", ["ui.bootstrap"])
         .controller("splatornament", function ($scope) {
-            $scope.yourName = "wraith13";
+
+            $scope.app = {
+                version: "0.00.000"
+            };
 
             //$scope.change = function () {
             //};
