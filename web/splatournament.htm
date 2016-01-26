@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=960, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>splatournament</title>
 
     <!-- angular.js with ui.bootstrap -->
@@ -136,8 +136,9 @@
         //    document.getElementById("picker").appendChild(pickerButton);
         //};
 
+
         var margin = { top: 30, right: 10, bottom: 10, left: 10 },
-            width = 960 - margin.left - margin.right,
+            width = screen.width - margin.left - margin.right,
             halfWidth = width / 2,
             height = 500 - margin.top - margin.bottom,
             i = 0,
@@ -191,7 +192,7 @@
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+        
         var tournament_tree = {
             "name": "Overall Winner",
             "winners": [
