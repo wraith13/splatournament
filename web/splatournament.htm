@@ -147,7 +147,6 @@
         //    document.getElementById("picker").appendChild(pickerButton);
         //};
 
-
         var margin = { top: 30, right: 10, bottom: 10, left: 10 },
             width = screen.width - margin.left - margin.right,
             halfWidth = width / 2,
@@ -169,12 +168,10 @@
                 a.push(d.challengers[i]);
             }
             return a.length ? a : null;
-        }
-        ;
+        };
 
         var tree = d3.layout.tree()
-            .size([height, width])
-        ;
+            .size([height, width]);
 
         var diagonal = d3.svg.diagonal()
             .projection(function (d) { return [d.y, d.x]; });
@@ -329,8 +326,7 @@
             // Transition nodes to their new position.
             var nodeUpdate = node.transition()
                 .duration(duration)
-                .attr("transform", function (d) { p = calcLeft(d); return "translate(" + p.y + "," + p.x + ")"; })
-            ;
+                .attr("transform", function (d) { p = calcLeft(d); return "translate(" + p.y + "," + p.x + ")"; });
 
             nodeUpdate.select("circle")
                 .attr("r", 4.5)
