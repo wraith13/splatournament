@@ -400,11 +400,20 @@
         //setTimeout(function () { update_tournament_tree(tournament_tree2); }, 3000);
 
         angular.module("splatournament", ["ui.bootstrap"])
-        .controller("splatornament", function ($scope) {
+        .controller("splatornament", function ($scope, $http) {
 
             $scope.app = {
-                version: "0.00.000"
+                version: "X.XX.XXX"
             };
+
+            $http({
+                method: 'GET',
+                url: "version.json"
+            }).success(function (data, status, headers, config) {
+                $scope.app.version = data;
+            }).error(function (data, status, headers, config) {
+            });
+
 
             //$scope.change = function () {
             //};
