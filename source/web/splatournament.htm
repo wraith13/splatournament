@@ -100,10 +100,17 @@
             -->
 
             <h3>
+                event
+            </h3>
+            <input type="text" class="form-control" ng-model="model.event.name" placeholder="このイベントのタイトル">
+            <input type="text" class="form-control" ng-model="model.event.description" placeholder="このイベントの説明">
+            <input type="text" class="form-control" ng-model="model.event.url" placeholder="このイベントのURL">
+
+            <h3>
                 entry
                 <button type="button" class='btn btn-primary btn-sm' ng-click="addEntry()">＋</button>
             </h3>
-            <div class="form-group" ng-repeat="entry in entries track by $index">
+            <div class="form-group" ng-repeat="entry in model.entries track by $index">
                 <div class="input-group">
                     <input type="text" class="form-control" ng-model="entry.name" placeholder="name">
                     <span class="input-group-btn">
@@ -418,14 +425,18 @@
             //$scope.change = function () {
             //};
 
-            $scope.entries = [];
+            $scope.model = {
+                event: { },
+                entries: []
+            };
+
             $scope.addEntry = function () {
-                $scope.entries.push({ name: "", });
+                $scope.model.entries.push({ name: "", });
             }
             $scope.addEntry();
             $scope.removeEntry = function (index) {
-                $scope.entries.splice(index, 1);
-                if (0 == $scope.entries.length) {
+                $scope.model.entries.splice(index, 1);
+                if (0 == $scope.model.entries.length) {
                     $scope.addEntry();
                 }
             }
