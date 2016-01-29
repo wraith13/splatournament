@@ -32,6 +32,30 @@
             font-family: "Yu Gothic UI", "Meiryo UI", "メイリオ", "MS UI Gothic", sans-serif;
         }
 
+        body {
+            background-color:#EEEEEE;
+        }
+        .body {
+            background-color:#FFFFFF;
+            padding-bottom:24px;
+        }
+
+        .tab-content {
+            padding: 8px
+        }
+        .list-group-item {
+            min-height: 12px;
+        }
+
+        .pull-xs-right {
+            float:right;
+        }
+        .label-pill {
+            padding-right: 0.6em;
+            padding-left: 0.6em;
+            border-radius: 10rem;
+        }
+
         .node circle {
             cursor: pointer;
             fill: #fff;
@@ -58,8 +82,8 @@
         }
     </style>
 </head>
-<body id="body" style="background-color:#EEEEEE;"  ng-controller="splatornament">
-    <div style="background-color:#FFFFFF;">
+<body id="body" ng-controller="splatornament">
+    <div class="body">
         <header class="navbar navbar-inverse navbar-fixed-top navbar-inner">
             <div class="container">
                 <div class="navbar-header">
@@ -99,49 +123,43 @@
             <br/>
             -->
 
-            <h3>
-                event
-            </h3>
-            <input type="text" class="form-control" ng-model="model.event.name" placeholder="名前">
-            <input type="text" class="form-control" ng-model="model.event.description" placeholder="説明">
-            <input type="text" class="form-control" ng-model="model.event.url" placeholder="URL">
-
-            <h3>
-                entry
-            </h3>
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="list-group">
-                        <div class='list-group-item' ng-click="addEntry()">
-                            <h4 class="list-group-item-heading">＋ new entry</h4>
-                            <p class="list-group-item-text"></p>
+            <uib-tabset>
+                <uib-tab heading="event">
+                    <input type="text" class="form-control" ng-model="model.event.name" placeholder="名前">
+                    <input type="text" class="form-control" ng-model="model.event.description" placeholder="説明">
+                    <input type="text" class="form-control" ng-model="model.event.url" placeholder="URL">
+                </uib-tab>
+                <uib-tab heading="entry">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-success" ng-click="addEntry()">＋ new entry</li>
+                                <li class="list-group-item" ng-class="$index == selected.entry ? 'active': ''" ng-repeat="entry in model.entries track by $index" ng-click="selectEntry($index)">
+                                    {{entry.name}}
+                                    <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in entry.tags track by tag">{{tag}}</span>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="list-group-item" ng-class="entry == selected.entry ? 'active': ''" ng-repeat="entry in model.entries track by $index" ng-click="selectEntry(entry)">
-                            <h4 class="list-group-item-heading">{{entry.name}}</h4>
-                            <p class="list-group-item-text">{{entry.description}}</p>
+                        <div class="col-lg-9" id="entryDetail">
+                            <div ng-show="0 <= selected.entry">
+                                <input type="text" class="form-control" ng-model="model.entries[selected.entry].name" placeholder="名前">
+                                <input type="text" class="form-control" ng-model="model.entries[selected.entry].description" placeholder="説明">
+                                <input type="text" class="form-control" ng-model="model.entries[selected.entry].url" placeholder="URL">
+                                <button type="button" class='btn btn-danger' ng-click="removeEntry(model.entries[selected.entry])">✘delete</button>
+                            </div>
+                            <div ng-hide="selected.entry">
+                                <p>entry を選択あるいは追加してください</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-9" id="entryDetail">
-                    <div ng-show="selected.entry">
-                        <input type="text" class="form-control" ng-model="selected.entry.name" placeholder="名前">
-                        <input type="text" class="form-control" ng-model="selected.entry.description" placeholder="説明">
-                        <input type="text" class="form-control" ng-model="selected.entry.url" placeholder="URL">
-                        <button type="button" class='btn btn-danger' ng-click="removeEntry(selected.entry)">✘delete</button>
-                    </div>
-                    <div ng-hide="selected.entry">
-                        <p>entry を選択あるいは追加してください</p>
-                    </div>
-                </div>
-            </div>
-
-            <h3>
-                import/export
-            </h3>
-            <textarea json-text class="form-control" rows="10" ng-model="model"></textarea>
-
-            <div id="chart"></div>
-
+                </uib-tab>
+                <uib-tab heading="import/export">
+                    <textarea json-text class="form-control" rows="10" ng-model="model"></textarea>
+                </uib-tab>
+                <uib-tab heading="chart">
+                    <div id="chart"></div>
+                </uib-tab>
+            </uib-tabset>
         </div>
     </div>
 
@@ -508,12 +526,12 @@
                 entries: []
             };
 
-            $scope.selectEntry = function (entry) {
-                $scope.selected.entry = entry;
+            $scope.selectEntry = function (index) {
+                $scope.selected.entry = index;
             }
             $scope.addEntry = function () {
-                $scope.model.entries.push({ });
-                $scope.selectEntry($scope.model.entries[$scope.model.entries.length - 1]);
+                $scope.model.entries.push({ tags:["new","4"] });
+                $scope.selectEntry($scope.model.entries.length - 1);
             };
             $scope.removeEntry = function (entry) {
                 var index = $scope.model.entries.indexOf(entry);
