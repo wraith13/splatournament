@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{A3AACFE4-A4D6-4E77-91D0-7D15174C9E97}"
+	ProjectSection(SolutionItems) = preProject
+		source\VERSION.cmd = source\VERSION.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{49E9B0BD-D925-4DB3-9F1E-68AB23D7A7E0}"
+	ProjectSection(SolutionItems) = preProject
+		source\web\splatournament.htm = source\web\splatournament.htm
+		source\web\version.json = source\web\version.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{49E9B0BD-D925-4DB3-9F1E-68AB23D7A7E0} = {A3AACFE4-A4D6-4E77-91D0-7D15174C9E97}
+	EndGlobalSection
+EndGlobal

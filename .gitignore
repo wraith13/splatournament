@@ -2,6 +2,7 @@
 snapshot
 testsnap
 reference
+.vs
 
 # Windows image file caches
 Thumbs.db
