@@ -144,6 +144,7 @@
                                 <li class="list-group-item list-group-item-success" ng-click="addEntry()">＋ new entry</li>
                                 <li class="list-group-item" ng-class="$index == selected.entry ? 'active': ''" ng-repeat="entry in model.entries track by $index" ng-click="selectEntry($index)">
                                     {{entry.name}}
+                                    <span ng-hide="entry.name"><i>名称未設定</i></span>
                                     <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in entry.tags track by tag">{{tag}}</span>
                                 </li>
                             </ul>
