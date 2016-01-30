@@ -151,6 +151,9 @@
                 </div>
             </div>
 
+            <div ng-show="active_tab=='match'">
+            </div>
+
             <div ng-show="active_tab=='import'">
                 <textarea class="form-control" rows="10" ng-model="json"></textarea>
                 <button type="button" class='btn btn-primary btn-lg btn-block' ng-click="import(json)">import</button>
@@ -534,7 +537,7 @@
             //$scope.change = function () {
             //};
 
-            $scope.tabs = [ "info", "event", "entry", "import", "export", "chart" ];
+            $scope.tabs = [ "info", "event", "entry", "match", "import", "export", "chart" ];
             $scope.active_tab = $scope.tabs[0];
             $scope.selectTab = function (tab) {
                 $scope.active_tab = tab;
@@ -546,7 +549,8 @@
             };
             $scope.model = {
                 event: { },
-                entries: []
+                entries: [],
+                matches: []
             };
 
             $scope.selectEntry = function (entry) {
