@@ -142,7 +142,7 @@
                         <div class="col-lg-3">
                             <ul class="list-group">
                                 <li class="list-group-item list-group-item-success" ng-click="addEntry()">＋ new entry</li>
-                                <li class="list-group-item" ng-class="$index == selected.entry ? 'active': ''" ng-repeat="entry in model.entries track by $index" ng-click="selectEntry($index)">
+                                <li class="list-group-item" ng-class="entry == selected.entry ? 'active': ''" ng-repeat="entry in model.entries track by $index" ng-click="selectEntry(entry)">
                                     {{entry.name}}
                                     <span ng-hide="entry.name"><i>名称未設定</i></span>
                                     <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in entry.tags track by tag">{{tag}}</span>
@@ -150,11 +150,11 @@
                             </ul>
                         </div>
                         <div class="col-lg-9" id="entryDetail">
-                            <div ng-show="0 <= selected.entry">
-                                <input type="text" class="form-control" ng-model="model.entries[selected.entry].name" placeholder="名前">
-                                <input type="text" class="form-control" ng-model="model.entries[selected.entry].description" placeholder="説明">
-                                <input type="text" class="form-control" ng-model="model.entries[selected.entry].url" placeholder="URL">
-                                <button type="button" class='btn btn-danger' ng-click="removeEntry(model.entries[selected.entry])">✘delete</button>
+                            <div ng-show="selected.entry">
+                                <input type="text" class="form-control" ng-model="selected.entry.name" placeholder="名前">
+                                <input type="text" class="form-control" ng-model="selected.entry.description" placeholder="説明">
+                                <input type="text" class="form-control" ng-model="selected.entry.url" placeholder="URL">
+                                <button type="button" class='btn btn-danger' ng-click="removeEntry(selected.entry)">✘delete</button>
                             </div>
                             <div ng-hide="selected.entry">
                                 <p>entry を選択あるいは追加してください</p>
@@ -551,12 +551,13 @@
                 entries: []
             };
 
-            $scope.selectEntry = function (index) {
-                $scope.selected.entry = index;
+            $scope.selectEntry = function (entry) {
+                $scope.selected.entry = entry;
             }
             $scope.addEntry = function () {
-                $scope.model.entries.push({ tags:["new","4"] });
-                $scope.selectEntry($scope.model.entries.length - 1);
+                var entry = { tags: ["new", "4"] };
+                $scope.model.entries.push(entry);
+                $scope.selectEntry(entry);
             };
             $scope.removeEntry = function (entry) {
                 var index = $scope.model.entries.indexOf(entry);
