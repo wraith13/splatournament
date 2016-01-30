@@ -543,6 +543,7 @@
             $scope.active_tab = $scope.tabs[0];
             $scope.selectTab = function (tab) {
                 $scope.active_tab = tab;
+                $scope.isCollapsed = false;
                 $scope.$apply();
             };
 
