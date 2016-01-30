@@ -118,6 +118,14 @@
                 </p>
             </div>
 
+            <script type="text/ng-template" id="alert.html">
+                <div class="alert" style="background-color:#fa39c3;color:white;" role="alert">
+                    <div ng-transclude></div>
+                </div>
+            </script>
+
+            <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout="3000">{{alert.msg}}</uib-alert>
+
             <!--
             <div id="picker"></div>
             <br/>
@@ -502,6 +510,18 @@
         });
 
         app.controller("splatornament", function ($scope, $http) {
+
+            $scope.alerts = [];
+            $scope.addAlert = function (alert) {
+                $scope.alerts.push(alert);
+            };
+            $scope.closeAlert = function (index) {
+                $scope.alerts.splice(index, 1);
+            };
+
+            $scope.toJson = function (object) {
+                return angular.toJson(object, true);
+            };
 
             $scope.app = {
                 version: "X.XX.XXX"
