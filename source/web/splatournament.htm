@@ -161,8 +161,12 @@
                         </div>
                     </div>
                 </uib-tab>
-                <uib-tab heading="import/export">
-                    <textarea json-text class="form-control" rows="10" ng-model="model"></textarea>
+                <uib-tab heading="import">
+                    <textarea class="form-control" rows="10" ng-model="json"></textarea>
+                    <button type="button" class='btn btn-primary btn-lg btn-block' ng-click="import(json)">import</button>
+                </uib-tab>
+                <uib-tab heading="export">
+                    <textarea class="form-control" rows="10">{{toJson(model)}}</textarea>
                 </uib-tab>
                 <uib-tab heading="chart">
                     <div id="chart"></div>
@@ -557,7 +561,17 @@
                 var index = $scope.model.entries.indexOf(entry);
                 $scope.model.entries.splice(index, 1);
                 $scope.selectEntry(null);
-            }
+            };
+
+            $scope.import = function (text) {
+                try {
+                    $scope.model = angular.fromJson(text);
+                    $scope.addAlert({ type: 'success', msg: 'インポートしました。' });
+                } catch (e) {
+                    $scope.addAlert({ type: 'danger', msg: 'インポート中に例外が発生しました。 ' + e });
+                }
+            };
+
 
             $scope.checkResults = [];
 
