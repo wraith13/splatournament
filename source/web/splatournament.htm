@@ -172,7 +172,7 @@
                             <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in entry.tags track by tag">{{tag}}</span>
                             <h4 class="list-group-item-heading">{{entry.name}}<span ng-hide="entry.name"><i>名称未設定</i></span></h4>
                             <p class="list-group-item-text">{{entry.description}}</p>
-                            <p class="list-group-item-text" ng-show="entry.url"><a ng-href="{{entry.url}}" target="_blank">{{entry.url}}</a></p>
+                            <p class="list-group-item-text" ng-show="entry.url"><a ng-href="{{entry.url}}" target="_blank" ng-click="$event.stopPropagation()">{{entry.url}}</a></p>
                         </li>
                     </ul>
                 </div>
