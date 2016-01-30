@@ -138,7 +138,7 @@
                             <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in entry.tags track by tag">{{tag}}</span>
                             <h4 class="list-group-item-heading">{{entry.name}}<span ng-hide="entry.name"><i>名称未設定</i></span></h4>
                             <p class="list-group-item-text">{{entry.description}}</p>
-                            <p class="list-group-item-text" ng-show="entry.url"><a ng-href="{{entry.url}}" target="_blank">{{entry.url}}</p>
+                            <p class="list-group-item-text" ng-show="entry.url"><a ng-href="{{entry.url}}" target="_blank">{{entry.url}}</a></p>
                         </li>
                     </ul>
                 </div>
@@ -545,8 +545,7 @@
                 $scope.$apply();
             };
 
-            $scope.selected = {
-            };
+            $scope.selected = { };
             $scope.model = {
                 event: { },
                 entries: [],
@@ -570,6 +569,11 @@
             $scope.import = function (text) {
                 try {
                     $scope.model = angular.fromJson(text);
+                    $scope.model = $scope.model || {}
+                    $scope.model.event = $scope.model.event || {}
+                    $scope.model.entries = $scope.model.entries || []
+                    $scope.model.matches = $scope.model.matches || []
+                    $scope.selected = { };
                     $scope.addAlert({ type: 'success', msg: 'インポートしました。' });
                 } catch (e) {
                     $scope.addAlert({ type: 'danger', msg: 'インポート中に例外が発生しました。 ' + e });
