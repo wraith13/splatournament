@@ -134,7 +134,7 @@
                 <div ng-hide="selected.entry">
                     <ul class="list-group">
                         <li class="list-group-item list-group-item-success glyphicon glyphicon-plus" ng-click="addEntry()">チームの追加</li>
-                        <li class="list-group-item" ng-class="entry == selected.entry ? 'active': ''" ng-repeat="entry in model.entries track by $index" ng-click="selectEntry(entry)">
+                        <li class="list-group-item" ng-class="{'active': entry == selected.entry}" ng-repeat="entry in model.entries track by $index" ng-click="selectEntry(entry)">
                             <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in entry.tags track by tag">{{tag}}</span>
                             <h4 class="list-group-item-heading">{{entry.name}}<span ng-hide="entry.name"><i>名称未設定</i></span></h4>
                             <p class="list-group-item-text">{{entry.description}}</p>
@@ -147,7 +147,7 @@
                     <input type="text" class="form-control" ng-model="selected.entry.description" placeholder="説明">
                     <input type="text" class="form-control" ng-model="selected.entry.url" placeholder="URL">
                     <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
-                    <button type="button" class='btn btn-danger glyphicon glyphicon-remove' ng-click="removeEntry(selected.entry)" style="float:right">チームの削除</button>
+                    <button type="button" class='btn btn-danger glyphicon glyphicon-trash' ng-click="removeEntry(selected.entry)" style="float:right">チームの削除</button>
                 </div>
             </div>
 
