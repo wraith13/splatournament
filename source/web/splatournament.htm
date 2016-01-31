@@ -125,7 +125,7 @@
                     <a class="navbar-brand visible-xs" href="#">splatournament</a>
                 </div>
                 <nav class="navbar-collapse collapse" uib-collapse="!isCollapsed">
-                    <a href="#" role="button" class="navbar-brand">splatournament</a>
+                    <a href="#" role="button" class="navbar-brand" ng-click="selectTab()">splatournament</a>
                     <ul class="nav navbar-nav">
                         <li ng-class="active_tab == tab ? 'active': ''" ng-repeat="tab in tabs track by $index"><a href="#{{tab}}" ng-click="selectTab(tab)">{{tab}}</a></li>
                     </ul>
@@ -532,10 +532,7 @@
                 update(source);
             }
         }
-
         //d3.json("bracket.json", update_tournament_tree);
-        setTimeout(function () { update_tournament_tree(tournament_tree); }, 0);
-        //setTimeout(function () { update_tournament_tree(tournament_tree2); }, 3000);
 
         var app = angular.module("splatournament", ["ui.bootstrap", "angularUUID2"]);
 
@@ -683,18 +680,25 @@
             //$scope.change = function () {
             //};
 
-            $scope.tabs = ["info", "event", "entry", "match", "import", "export", "tree"];
+            $scope.mastertabs = ["info", "event", "entry", "match", "import", "export", "tree"];
+            $scope.tabs = $scope.mastertabs;
             $scope.selectTab = function (tab) {
-                $scope.active_tab = tab;
-                $scope.isCollapsed = false;
-                if ("match" == tab) {
-                    $scope.update_unmatches();
-                }
-                if ("tree" == tab) {
-                    $scope.update_tree();
+                if (0 <= $scope.mastertabs.indexOf(tab)) {
+                    $scope.active_tab = tab;
+                    $scope.isCollapsed = false;
+                    if ("match" == tab) {
+                        $scope.update_unmatches();
+                    }
+                    if ("tree" == tab) {
+                        $scope.update_tree();
+                    }
+                } else {
+                    $scope.selectTab($scope.tabs[0]);
                 }
             };
-            setTimeout(function () { $scope.selectTab($location.hash() || $scope.tabs[0]); }, 0);
+            setTimeout(function () {
+                $scope.selectTab($location.hash() || $scope.tabs[0]);
+            }, 0);
 
             //  cache
             $scope.getCache = function (type, key) {
@@ -973,6 +977,10 @@
                 } catch (e) {
                     $scope.addAlert({ type: 'danger', msg: 'インポート中に例外が発生しました。 ' + e });
                 }
+            };
+
+            $scope.update_tree = function () {
+                update_tournament_tree(tournament_tree);
             };
 
             $scope.regulateModel();
