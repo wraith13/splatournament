@@ -674,6 +674,7 @@
                     $scope.regulateModel();
                     $scope.viewmode = true;
                     $scope.tabs = ["info", "entry", "match", "tree"];
+                    $scope.selectTab($location.hash());
                 }).error(function (data, status, headers, config) {
                     $scope.addAlert({ type: 'danger', msg: 'インポート中にエラーが発生しました。 '});
                 });
@@ -683,7 +684,6 @@
             //};
 
             $scope.tabs = ["info", "event", "entry", "match", "import", "export", "tree"];
-            $scope.active_tab = $location.hash() || $scope.tabs[0];
             $scope.selectTab = function (tab) {
                 $scope.active_tab = tab;
                 $scope.isCollapsed = false;
@@ -694,6 +694,7 @@
                     $scope.update_tree();
                 }
             };
+            setTimeout(function () { $scope.selectTab($location.hash() || $scope.tabs[0]); }, 0);
 
             //  cache
             $scope.getCache = function (type, key) {
