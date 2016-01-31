@@ -258,6 +258,9 @@
                 </div>
 
                 <div ng-show="active_tab=='tree'">
+                    <div ng-hide="0 < model.matches.length">
+                        <uib-alert type="info">match で抽選を行ってトーナメント表を作成してください。</uib-alert>
+                    </div>
                     <div id="chart"></div>
                 </div>
             </div>
