@@ -220,6 +220,7 @@
                                         ng-click="setWinner(match,entry)"
                                         ng-class="getMatchEntryClass(match,entry)">
                                         <span ng-show="searchEntry(entry)">
+                                            <span ng-class="getMatchResultClass(match,entry)"></span>
                                             <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in searchEntry(entry).tags track by tag">{{tag}}</span>
                                             {{searchEntry(entry).name}}<span ng-hide="searchEntry(entry).name"><i>名称未設定</i></span>
                                         </span>
@@ -249,7 +250,7 @@
                 <textarea class="form-control" rows="10">{{toJson(model)}}</textarea>
             </div>
 
-            <div ng-show="active_tab=='chart'">
+            <div ng-show="active_tab=='tree'">
                 <div id="chart"></div>
             </div>
         </div>
@@ -672,7 +673,7 @@
                     $scope.model = data;
                     $scope.regulateModel();
                     $scope.viewmode = true;
-                    $scope.tabs = ["info", "entry", "match", "chart"];
+                    $scope.tabs = ["info", "entry", "match", "tree"];
                 }).error(function (data, status, headers, config) {
                     $scope.addAlert({ type: 'danger', msg: 'インポート中にエラーが発生しました。 '});
                 });
@@ -681,13 +682,16 @@
             //$scope.change = function () {
             //};
 
-            $scope.tabs = ["info", "event", "entry", "match", "import", "export", "chart"];
+            $scope.tabs = ["info", "event", "entry", "match", "import", "export", "tree"];
             $scope.active_tab = $scope.tabs[0];
             $scope.selectTab = function (tab) {
                 $scope.active_tab = tab;
                 $scope.isCollapsed = false;
                 if ("match" == tab) {
                     $scope.update_unmatches();
+                }
+                if ("tree" == tab) {
+                    $scope.update_tree();
                 }
             };
 
@@ -937,15 +941,27 @@
                 if ($scope.searchEntry(entry)) {
                     if (match.winners && 0 < match.winners.length) {
                         if (0 <= match.winners.indexOf(entry)) {
-                            return 'glyphicon glyphicon-ok list-group-item-success';
+                            return 'list-group-item-success';
                         } else {
-                            return 'glyphicon glyphicon-remove list-group-item-danger';
+                            return 'list-group-item-danger';
                         }
                     } else {
                         return 'list-group-item-info';
                     }
                 }
                 return 'list-group-item-warning';
+            }
+            $scope.getMatchResultClass = function (match, entry) {
+                if ($scope.searchEntry(entry)) {
+                    if (match.winners && 0 < match.winners.length) {
+                        if (0 <= match.winners.indexOf(entry)) {
+                            return 'glyphicon glyphicon-ok';
+                        } else {
+                            return 'glyphicon glyphicon-remove';
+                        }
+                    }
+                }
+                return '';
             }
 
             $scope.import = function (text) {
