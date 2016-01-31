@@ -126,7 +126,7 @@
                     <a class="navbar-brand visible-xs" href="#" ng-click="selectTab(null)">{{app.name}}</a>
                 </div>
                 <nav class="navbar-collapse collapse" uib-collapse="!isCollapsed">
-                    <a href="#" role="button" class="navbar-brand" ng-click="selectTab()">{{app.name}}</a>
+                    <a href="#" role="button" class="navbar-brand" ng-click="selectTab()" ng-hide="isCollapsed">{{app.name}}</a>
                     <ul class="nav navbar-nav" ng-hide="is_loading">
                         <li ng-class="active_tab == tab ? 'active': ''" ng-repeat="tab in tabs track by $index"><a href="#{{tab}}" ng-click="selectTab(tab)">{{tab}}</a></li>
                     </ul>
