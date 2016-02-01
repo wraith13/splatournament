@@ -693,6 +693,7 @@
             $scope.mastertabs = ["event", "entry", "match", "import", "export", "tree"];
             $scope.tabs = $scope.mastertabs;
             $scope.selectTab = function (tab) {
+                $scope.selected = {};
                 $scope.isCollapsed = false;
                 if (0 <= $scope.mastertabs.indexOf(tab)) {
                     $scope.active_tab = tab;
