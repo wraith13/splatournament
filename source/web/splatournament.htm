@@ -432,7 +432,7 @@
 
             // Enter any new links at the parent's previous position.
             link.enter().insert("path", "g")
-                .attr("class", function (d) { return d.target.is_winner ? "link winner": "link";})
+                .attr("class", function (d) { return (d.target.is_winner || (d.source.is_winner && 1 == d.source.entries.length)) ? "link winner" : "link"; })
                 .attr("d", function (d) {
                     var o = { x: source.x0, y: source.y0 };
                     return connector({ source: o, target: o });
@@ -880,20 +880,10 @@
             $scope.setWinner = function (match, entry) {
                 var winner = $scope.searchEntry(entry);
                 if (match && winner) {
-                    var sub_match = $scope.getMatch(entry);
-                    if (sub_match && 1 != sub_match.entries.length) {
-                        sub_match = null;
-                    }
                     if (match.winners && 0 <= match.winners.indexOf(entry)) {
                         match.winners = [];
-                        if (sub_match) {
-                            sub_match.winners = [];
-                        }
                     } else {
                         match.winners = [entry];
-                        if (sub_match) {
-                            sub_match.winners = [sub_match.entries[0]];
-                        }
                     }
                 }
                 $scope.cache = {};
