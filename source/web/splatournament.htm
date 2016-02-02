@@ -174,9 +174,13 @@
 
                 <div ng-show="active_tab=='entry'">
                     <div ng-hide="selected.entry">
+                        <div class="input-group">
+                            <span class="input-group-addon glyphicon glyphicon-search" id="entry-search-icon"></span>
+                            <input type="text" class="form-control" placeholder="キーワード" aria-describedby="entry-search-icon" ng-model="selected.search">
+                        </div>
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-success glyphicon glyphicon-plus" ng-click="addEntry()" ng-hide="viewmode">チームの追加</li>
-                            <li class="list-group-item" ng-class="{'active': entry == selected.entry}" ng-repeat="entry in model.entries track by $index" ng-click="selectEntry(entry)">
+                            <li class="list-group-item" ng-class="{'active': entry == selected.entry}" ng-repeat="entry in model.entries | filter:filterEntry track by $index" ng-click="selectEntry(entry)">
                                 <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in entry.tags track by tag">{{tag}}</span>
                                 <h4 class="list-group-item-heading">{{entry.name}}<span ng-hide="entry.name"><i>名称未設定</i></span></h4>
                                 <p class="list-group-item-text">{{entry.description}}</p>
@@ -802,6 +806,13 @@
                 $scope.model.entries.splice(index, 1);
                 $scope.selectEntry(null);
             };
+            $scope.filterEntry = function (value, index, array) {
+                return !($scope.selected.search) ||
+                    0 == $scope.selected.search.length ||
+                    0 <= (value.name || "").indexOf($scope.selected.search) ||
+                    0 <= (value.description || "").indexOf($scope.selected.search) ||
+                    0 <= (value.url || "").indexOf($scope.selected.search);
+            }
 
             //  match
             $scope.get_matched_entries = function () {
