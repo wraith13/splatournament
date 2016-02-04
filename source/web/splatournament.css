@@ -1,10 +1,12 @@
-﻿body,
+﻿/* base */
+body,
 table,
 div,
 .node text {
     font-family: "Yu Gothic UI", "Meiryo UI", "メイリオ", "MS UI Gothic", sans-serif;
 }
 
+/* body */
 body {
     background-color:#EEEEEE;
 }
@@ -13,6 +15,7 @@ body {
     padding-bottom:24px;
 }
 
+/* ui.bootstrap fix */
 .pull-xs-right {
     float:right;
 }
@@ -22,6 +25,7 @@ body {
     border-radius: 10rem;
 }
 
+/* tree */
 .node circle {
     cursor: pointer;
     fill: #fff;
@@ -41,6 +45,7 @@ path.winner {
     stroke-width: 3.0px;
 }
 
+/* footer */
 .footer .container ul {
     margin: 16px;
 }
