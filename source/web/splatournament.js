@@ -314,13 +314,14 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
     });
 
     $scope.regulateModel = function () {
+        $scope.repository = {};
+        $scope.selected = {};
+        $scope.cache = {};
         $scope.model = $scope.model || {}
         $scope.model.event = $scope.model.event || {}
         $scope.makeSureId($scope.model.event);
-        $scope.model.entries = $scope.model.entries || []
-        $scope.model.matches = $scope.model.matches || []
-        $scope.selected = {};
-        $scope.cache = {};
+        $scope.repository.entry = $scope.model.entries = $scope.model.entries || []
+        $scope.repository.match = $scope.model.matches = $scope.model.matches || []
     };
 
     var data_json = $location.search()["data"];
@@ -376,6 +377,37 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         $scope.cache[type][key] = value;
     }
 
+    //  select
+    $scope.selectObject = function (type, object) {
+        return $scope.selected[type] = $scope.getObject(type, object);
+    }
+    $scope.getObject = function (type, object) {
+        if (null == object || "object" == typeof (object)) {
+            return object;
+        } else {
+            var result = $scope.getCache(type, object);
+            if (!result) {
+                angular.forEach($scope.repository[type], function (value, i) {
+                    if (object == value.id) {
+                        result = value;
+                        $scope.setCache(type, object, value);
+                    }
+                });
+            }
+            return result;
+        }
+    };
+    $scope.addObject = function (type, object) {
+        var sure_object = object || {};
+        $scope.repository[type].push(sure_object);
+        $scope.selectObject(type, sure_object);
+    };
+    $scope.removeObject = function (type, object) {
+        var index = $scope.repository[type].indexOf(object);
+        $scope.repository[type].splice(index, 1);
+        $scope.selectObject(type, null);
+    };
+
     //  id
     $scope.makeSureId = function (object) {
         if (!object.id) {
@@ -384,16 +416,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         return object.id;
     };
     $scope.getEntry = function (id) {
-        var result = $scope.getCache("entry", id);
-        if (!result) {
-            angular.forEach($scope.model.entries, function (entry, i) {
-                if (id == entry.id) {
-                    result = entry;
-                    $scope.setCache("entry", id, entry);
-                }
-            });
-        }
-        return result;
+        return $scope.getObject("entry", id);
     };
     $scope.searchEntry = function (id) {
         var result = $scope.getCache("search_entry", id);
@@ -416,16 +439,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         return result;
     };
     $scope.getMatch = function (id) {
-        var result = $scope.getCache("match", id);
-        if (!result) {
-            angular.forEach($scope.model.matches, function (match, i) {
-                if (id == match.id) {
-                    result = match;
-                    $scope.setCache("match", id, match);
-                }
-            });
-        }
-        return result;
+        return $scope.getObject("match", id);
     };
     $scope.getNextMatch = function (id) {
         var result = 0;
@@ -439,11 +453,8 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
 
     //  entry
     $scope.selectEntry = function (entry) {
-        if (null == entry || "object" == typeof (entry)) {
-            $scope.selected.entry = entry;
-        } else {
-            $scope.selected.entry = $scope.getEntry(entry);
-        }
+        $scope.selectObject("entry", entry);
+
         $scope.selected.entryMatches = [];
         if ($scope.selected.entry && $scope.model.matches) {
             var match = $scope.selected.entry;
@@ -453,14 +464,10 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         }
     }
     $scope.addEntry = function () {
-        var entry = { tags: ["new", "4"] };
-        $scope.model.entries.push(entry);
-        $scope.selectEntry(entry);
+        $scope.addObject({ tags: ["new", "4"] });
     };
     $scope.removeEntry = function (entry) {
-        var index = $scope.model.entries.indexOf(entry);
-        $scope.model.entries.splice(index, 1);
-        $scope.selectEntry(null);
+        $scope.removeObject(entry);
     };
     $scope.filterEntry = function (value, index, array) {
         var search = $scope.selected.entrySearch;
@@ -476,11 +483,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         if (match) {
             $scope.selectTab("match");
         }
-        if (null == match || "object" == typeof (match)) {
-            $scope.selected.match = match;
-        } else {
-            $scope.selected.match = $scope.getMatch(match);
-        }
+        $scope.selectObject("match", match);
     }
     $scope.get_matched_entries = function () {
         var result = [];
