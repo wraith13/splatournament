@@ -82,6 +82,14 @@
             </div>
         </header>
 
+        <script type="text/ng-template" id="jumbotron.html">
+            <div class="jumbotron">
+                <h1>{{model.name}}</h1>
+                <p>{{model.description}}</p>
+                <p><a ng-href="{{model.url}}" target="_blank">{{model.url}}</a></p>
+            </div>
+        </script>
+
         <div class="container theme-showcase" role="main">
 
             <div class="alert alert-danger" role="alert" ng-hide="true"><strong>JavaScriptが無効になっています。</strong>このページは JavaScript に強く依存しています。JavaScriptを有効にしてから再読み込みしてください。</div>
@@ -99,18 +107,8 @@
             </div>
             <div ng-hide="is_loading">
                 <div ng-hide="active_tab">
-                    <div class="jumbotron" ng-hide="viewmode">
-                        <h1>splatournament</h1>
-                        <p>
-                            このツールは Wii U 用ゲームソフト、『スプラトゥーン』で草の根的に行われる
-                            各種トーナメント形式での大会向けのトーナメント管理ツールです。
-                        </p>
-                    </div>
-                    <div class="jumbotron" ng-show="viewmode">
-                        <h1>{{model.event.name}}</h1>
-                        <p>{{model.event.description}}</p>
-                        <p><a ng-href="{{model.event.url}}" target="_blank">{{model.event.url}}</a></p>
-                    </div>
+                    <div ng-hide="viewmode" ng-include="'jumbotron.html'" ng-repeat="model in [{name:'splatournament',description:'このツールは Wii U 用ゲームソフト、『スプラトゥーン』で草の根的に行われる各種トーナメント形式での大会向けのトーナメント管理ツールです。'}]"></div>
+                    <div ng-show="viewmode" ng-include="'jumbotron.html'" ng-repeat="model in [model.event]"></div>
                 </div>
 
                 <div ng-show="active_tab=='event'" ng-click="selectTab('event')">
