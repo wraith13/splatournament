@@ -228,7 +228,7 @@
                         <div ng-show="selected.match && !viewmode">
                             <div ng-include="'edit.html'" ng-repeat="model in [selected.match]"></div>
                             <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectMatch(null)">戻る</button>
-                            <div ng-show="model.entries" ng-include="'match.entries.list.html'" ng-repeat="model in [match]"></div>
+                            <div ng-show="model.entries" ng-include="'match.entries.list.html'" ng-repeat="model in [selected.match]"></div>
                         </div>
                         <div ng-show="selected.match && viewmode">
                             <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.match]"></div>
