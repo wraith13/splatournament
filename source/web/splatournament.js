@@ -488,10 +488,10 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         }
     }
     $scope.addEntry = function () {
-        $scope.addObject({ tags: ["new", "4"] });
+        $scope.addObject("entry", { tags: ["new", "4"] });
     };
     $scope.removeEntry = function (entry) {
-        $scope.removeObject(entry);
+        $scope.removeObject("entry", entry);
     };
     $scope.filterEntry = function (value, index, array) {
         var search = $scope.selected.entrySearch;
