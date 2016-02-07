@@ -91,6 +91,12 @@
             </div>
         </script>
 
+        <script type="text/ng-template" id="edit.html">
+            <input type="text" class="form-control" ng-model="model.name" placeholder="名前">
+            <input type="text" class="form-control" ng-model="model.description" placeholder="説明">
+            <input type="text" class="form-control" ng-model="model.url" placeholder="URL">
+        </script>
+
         <script type="text/ng-template" id="list.html">
             <ul class="list-group" ng-click="$event.stopPropagation()">
                 <li class="list-group-item"
@@ -128,15 +134,9 @@
                 </div>
             </div>
             <div ng-hide="is_loading">
-                <div ng-hide="active_tab">
-                    <div ng-include="'jumbotron.html'" ng-repeat="model in [viewmode?model.event:app]"></div>
-                </div>
+                <div ng-hide="active_tab" ng-include="'jumbotron.html'" ng-repeat="model in [viewmode?model.event:app]"></div>
 
-                <div ng-show="active_tab=='event'" ng-click="selectTab('event')">
-                    <input type="text" class="form-control" ng-model="model.event.name" placeholder="名前">
-                    <input type="text" class="form-control" ng-model="model.event.description" placeholder="説明">
-                    <input type="text" class="form-control" ng-model="model.event.url" placeholder="URL">
-                </div>
+                <div ng-show="active_tab=='event'" ng-include="'edit.html'" ng-repeat="model in [model.event]"></div>
 
                 <div ng-show="active_tab=='entry'">
                     <div ng-hide="selected.entry">
@@ -155,9 +155,7 @@
                         </ul>
                     </div>
                     <div ng-show="selected.entry && !viewmode">
-                        <input type="text" class="form-control" ng-model="selected.entry.name" placeholder="名前">
-                        <input type="text" class="form-control" ng-model="selected.entry.description" placeholder="説明">
-                        <input type="text" class="form-control" ng-model="selected.entry.url" placeholder="URL">
+                        <div ng-include="'edit.html'" ng-repeat="model in [selected.entry]"></div>
                         <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
                         <button type="button" class='btn btn-danger glyphicon glyphicon-trash' ng-click="removeEntry(selected.entry)" style="float:right">チームの削除</button>
                         <ul class="list-group">
@@ -279,9 +277,7 @@
                             <button type="button" class='btn btn-danger' style="float:right" ng-click="remakeMatch()" ng-hide="viewmode">現在の抽選を全て破棄して抽選の再実行</button>
                         </div>
                         <div ng-show="selected.match && !viewmode">
-                            <input type="text" class="form-control" ng-model="selected.match.name" placeholder="名前">
-                            <input type="text" class="form-control" ng-model="selected.match.description" placeholder="説明">
-                            <input type="text" class="form-control" ng-model="selected.match.url" placeholder="URL">
+                            <div ng-include="'edit.html'" ng-repeat="model in [selected.match]"></div>
                             <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectMatch(null)">戻る</button>
                             <ul class="list-group" ng-click="$event.stopPropagation()">
                                 <li class="list-group-item"
