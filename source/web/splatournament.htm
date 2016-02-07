@@ -107,8 +107,7 @@
             </div>
             <div ng-hide="is_loading">
                 <div ng-hide="active_tab">
-                    <div ng-hide="viewmode" ng-include="'jumbotron.html'" ng-repeat="model in [{name:'splatournament',description:'このツールは Wii U 用ゲームソフト、『スプラトゥーン』で草の根的に行われる各種トーナメント形式での大会向けのトーナメント管理ツールです。'}]"></div>
-                    <div ng-show="viewmode" ng-include="'jumbotron.html'" ng-repeat="model in [model.event]"></div>
+                    <div ng-include="'jumbotron.html'" ng-repeat="model in [viewmode?model.event:app]"></div>
                 </div>
 
                 <div ng-show="active_tab=='event'" ng-click="selectTab('event')">

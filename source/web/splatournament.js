@@ -304,6 +304,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
 
     $scope.app = {
         name: "splatournament",
+        description: "このツールは Wii U 用ゲームソフト、『スプラトゥーン』で草の根的に行われる各種トーナメント形式での大会向けのトーナメント管理ツールです。",
         version: "X.XX.XXX"
     };
     $rootScope.title = $scope.app.name;
