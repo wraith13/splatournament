@@ -87,7 +87,29 @@
                 <h1>{{model.name}}</h1>
                 <p>{{model.description}}</p>
                 <p><a ng-href="{{model.url}}" target="_blank">{{model.url}}</a></p>
+                <div ng-show="model.entries" ng-include="'list.html'"></div>
             </div>
+        </script>
+
+        <script type="text/ng-template" id="list.html">
+            <ul class="list-group" ng-click="$event.stopPropagation()">
+                <li class="list-group-item"
+                    ng-repeat="entry in model.entries track by $index"
+                    ng-click="viewmode ? showEntry(entry): setWinner(model,entry)"
+                    ng-class="getMatchEntryClass(model,entry)">
+                    <span ng-show="searchEntry(entry)">
+                        <span ng-class="getMatchResultClass(model,entry)"></span>
+                        <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in searchEntry(entry).tags track by tag">{{tag}}</span>
+                        {{searchEntry(entry).name}}<span ng-hide="searchEntry(entry).name"><i>名称未設定</i></span>
+                    </span>
+                    <span ng-hide="searchEntry(entry)">
+                        <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in getMatch(entry).tags track by tag">{{tag}}</span>
+                        <span class="label label-default label-pill pull-xs-right">weight:{{getMatch(entry).weight}}</span>
+                        <span class="label label-default label-pill pull-xs-right">level:{{getMatch(entry).level}}</span>
+                        {{getMatch(entry).name}} の勝者
+                    </span>
+                </li>
+            </ul>
         </script>
 
         <div class="container theme-showcase" role="main">
@@ -165,11 +187,7 @@
                         </ul>
                     </div>
                     <div ng-show="selected.entry && viewmode">
-                        <div class="jumbotron">
-                            <h1>{{selected.entry.name}}</h1>
-                            <p>{{selected.entry.description}}</p>
-                            <p><a ng-href="{{selected.entry.url}}" target="_blank">{{selected.entry.url}}</a></p>
-                        </div>
+                        <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.entry]"></div>
                         <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
                         <ul class="list-group">
                             <li class="list-group-item" ng-repeat="match in selected.entryMatches track by $index" ng-show="2<=match.entries.length" ng-click="selectMatch(match)">
@@ -285,29 +303,7 @@
                             </ul>
                         </div>
                         <div ng-show="selected.match && viewmode">
-                            <div class="jumbotron" ng-show="viewmode">
-                                <h1>{{selected.match.name}}</h1>
-                                <p>{{selected.match.description}}</p>
-                                <p><a ng-href="{{selected.match.url}}" target="_blank">{{selected.match.url}}</a></p>
-                                <ul class="list-group" ng-click="$event.stopPropagation()">
-                                    <li class="list-group-item"
-                                        ng-repeat="entry in selected.match.entries track by $index"
-                                        ng-click="viewmode ? showEntry(entry): setWinner(selected.match,entry)"
-                                        ng-class="getMatchEntryClass(selected.match,entry)">
-                                        <span ng-show="searchEntry(entry)">
-                                            <span ng-class="getMatchResultClass(selected.match,entry)"></span>
-                                            <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in searchEntry(entry).tags track by tag">{{tag}}</span>
-                                            {{searchEntry(entry).name}}<span ng-hide="searchEntry(entry).name"><i>名称未設定</i></span>
-                                        </span>
-                                        <span ng-hide="searchEntry(entry)">
-                                            <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in getMatch(entry).tags track by tag">{{tag}}</span>
-                                            <span class="label label-default label-pill pull-xs-right">weight:{{getMatch(entry).weight}}</span>
-                                            <span class="label label-default label-pill pull-xs-right">level:{{getMatch(entry).level}}</span>
-                                            {{getMatch(entry).name}} の勝者
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
+                            <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.match]"></div>
                             <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectMatch(null)">戻る</button>
                         </div>
                     </div>
