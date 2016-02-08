@@ -118,6 +118,22 @@
             </ul>
         </script>
 
+        <script type="text/ng-template" id="matches.list.html">
+            <div class="input-group">
+                <span class="input-group-addon glyphicon glyphicon-search" id="match-search-icon"></span>
+                <input type="text" class="form-control" placeholder="キーワード" aria-describedby="match-search-icon" ng-model="selected.matchSearch">
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="match in model | filter:filterMatch track by $index" ng-show="2<=match.entries.length" ng-click="selectMatch(match)">
+                    <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in match.tags track by tag">{{tag}}</span>
+                    <h4 class="list-group-item-heading">{{match.name}}</h4>
+                    <div ng-show="model.entries" ng-include="'match.entries.list.html'" ng-repeat="model in [match]"></div>
+                    {{match.description}}
+                </li>
+            </ul>
+        </script>
+
+
         <div class="container theme-showcase" role="main">
 
             <div class="alert alert-danger" role="alert" ng-hide="true"><strong>JavaScriptが無効になっています。</strong>このページは JavaScript に強く依存しています。JavaScriptを有効にしてから再読み込みしてください。</div>
@@ -158,26 +174,12 @@
                         <div ng-include="'edit.html'" ng-repeat="model in [selected.entry]"></div>
                         <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
                         <button type="button" class='btn btn-danger glyphicon glyphicon-trash' ng-click="removeEntry(selected.entry)" style="float:right">チームの削除</button>
-                        <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="match in selected.entryMatches track by $index" ng-show="2<=match.entries.length" ng-click="selectMatch(match)">
-                                <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in match.tags track by tag">{{tag}}</span>
-                                <h4 class="list-group-item-heading">{{match.name}}</h4>
-                                <div ng-show="model.entries" ng-include="'match.entries.list.html'" ng-repeat="model in [match]"></div>
-                                {{match.description}}
-                            </li>
-                        </ul>
+                        <div ng-include="'matches.list.html'" ng-repeat="model in [selected.entryMatches]"></div>
                     </div>
                     <div ng-show="selected.entry && viewmode">
                         <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.entry]"></div>
                         <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
-                        <ul class="list-group">
-                            <li class="list-group-item" ng-repeat="match in selected.entryMatches track by $index" ng-show="2<=match.entries.length" ng-click="selectMatch(match)">
-                                <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in match.tags track by tag">{{tag}}</span>
-                                <h4 class="list-group-item-heading">{{match.name}}</h4>
-                                <div ng-show="model.entries" ng-include="'match.entries.list.html'" ng-repeat="model in [match]"></div>
-                                {{match.description}}
-                            </li>
-                        </ul>
+                        <div ng-include="'matches.list.html'" ng-repeat="model in [selected.entryMatches]"></div>
                     </div>
                 </div>
 
@@ -210,19 +212,7 @@
                                 <button ng-hide="over_bit_level" type="button" class='btn btn-primary btn-lg btn-block' ng-click="appendMatch()">追加の抽選の実行</button>
                                 -->
                             </div>
-                            <div class="input-group">
-                                <span class="input-group-addon glyphicon glyphicon-search" id="match-search-icon"></span>
-                                <input type="text" class="form-control" placeholder="キーワード" aria-describedby="match-search-icon" ng-model="selected.matchSearch">
-                            </div>
-                            <ul class="list-group">
-                                <li class="list-group-item" ng-repeat="match in model.matches | filter:filterMatch track by $index" ng-show="2<=match.entries.length" ng-click="selectMatch(match)">
-                                    <span class="label label-default label-pill pull-xs-right" ng-repeat="tag in match.tags track by tag">{{tag}}</span>
-                                    <h4 class="list-group-item-heading">{{match.name}}</h4>
-                                    <div ng-show="model.entries" ng-include="'match.entries.list.html'" ng-repeat="model in [match]"></div>
-                                    {{match.description}}
-                                </li>
-                            </ul>
-
+                            <div ng-include="'matches.list.html'" ng-repeat="model in [model.matches]"></div>
                             <button type="button" class='btn btn-danger' style="float:right" ng-click="remakeMatch()" ng-hide="viewmode">現在の抽選を全て破棄して抽選の再実行</button>
                         </div>
                         <div ng-show="selected.match && !viewmode">
