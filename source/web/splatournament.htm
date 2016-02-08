@@ -72,12 +72,12 @@
                     ng-class="getMatchEntryClass(model,entry)">
                     <span ng-show="searchEntry(entry)">
                         <span ng-class="getMatchResultClass(model,entry)"></span>
-                        <div ng-include="'tag.html'" ng-repeat="model in searchEntry(entry).tags track by tag"></div>
+                        <span ng-include="'tag.html'" ng-repeat="model in searchEntry(entry).tags track by tag"></span>
                         {{searchEntry(entry).name}}<span ng-hide="searchEntry(entry).name"><i>名称未設定</i></span>
                     </span>
                     <span ng-hide="searchEntry(entry)">
-                        <div ng-include="'tag.html'" ng-repeat="model in getMatch(entry).tags track by tag"></div>
-                        <div ng-include="'tag.html'" ng-repeat="model in ['weight:'+getMatch(entry).weight,'level:'+getMatch(entry).level]"></div>
+                        <span ng-include="'tag.html'" ng-repeat="model in getMatch(entry).tags track by tag"></span>
+                        <span ng-include="'tag.html'" ng-repeat="model in ['weight:'+getMatch(entry).weight,'level:'+getMatch(entry).level]"></span>
                         {{getMatch(entry).name}} の勝者
                     </span>
                 </li>
@@ -91,7 +91,7 @@
             </div>
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="match in model | filter:filterMatch track by $index" ng-show="2<=match.entries.length" ng-click="selectMatch(match)">
-                    <div ng-include="'tag.html'" ng-repeat="model in match.tags track by tag"></div>
+                    <span ng-include="'tag.html'" ng-repeat="model in match.tags track by tag"></span>
                     <h4 class="list-group-item-heading">{{match.name}}</h4>
                     <div ng-show="model.entries" ng-include="'match.entries.list.html'" ng-repeat="model in [match]"></div>
                     {{match.description}}
@@ -132,7 +132,7 @@
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-success glyphicon glyphicon-plus" ng-click="addEntry()" ng-hide="viewmode">チームの追加</li>
                             <li class="list-group-item" ng-class="{'active': entry == selected.entry}" ng-repeat="entry in model.entries | filter:filterEntry track by $index" ng-click="selectEntry(entry)">
-                                <div ng-include="'tag.html'" ng-repeat="model in entry.tags track by tag"></div>
+                                <span ng-include="'tag.html'" ng-repeat="model in entry.tags track by tag"></span>
                                 <h4 class="list-group-item-heading">{{entry.name}}<span ng-hide="entry.name"><i>名称未設定</i></span></h4>
                                 <p class="list-group-item-text">{{entry.description}}</p>
                                 <p class="list-group-item-text" ng-show="entry.url"><a ng-href="{{entry.url}}" target="_blank" ng-click="$event.stopPropagation()">{{entry.url}}</a></p>
@@ -171,7 +171,7 @@
                                 <uib-alert type="info">次のチームがトーナメントに組み込まれていません。</uib-alert>
                                 <ul class="list-group">
                                     <li class="list-group-item" ng-repeat="entry in unmatches track by $index">
-                                        <div ng-include="'tag.html'" ng-repeat="model in getEntry(entry).tags track by tag"></div>
+                                        <span ng-include="'tag.html'" ng-repeat="model in getEntry(entry).tags track by tag"></span>
                                         {{getEntry(entry).name}}<span ng-hide="getEntry(entry).name"><i>名称未設定</i></span>
                                     </li>
                                 </ul>
