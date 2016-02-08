@@ -596,7 +596,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
             var number = 0;
             angular.forEach(lastMatch.entries, function (match_id, i) {
                 var match = $scope.getMatch(match_id);
-                if (null != match) {
+                if (null != match && null != match.entries && 2 <= match.entries.length) {
                     match.name = "準決勝 第" + (++number) + "試合";
                 }
             });
