@@ -138,7 +138,9 @@ function update(source, showObject) {
 
     // Enter any new nodes at the parent's previous position.
     var nodeEnter = node.enter().append("g")
-        .attr("class", "node")
+        .attr("class", function (d) {
+            return (d.name && 0 < d.name.length) ? "node" : "null";
+        })
         .attr("transform", function (d) { return "translate(" + source.y0 + "," + source.x0 + ")"; });
         //.on("click", click);
 
