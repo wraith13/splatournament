@@ -58,6 +58,7 @@
         <script type="text/ng-template" id="jumbotron.html">
             <div class="jumbotron">
                 <h1>{{model.name}}</h1>
+                <span ng-include="'tag.html'" ng-repeat="model in searchEntry(entry).tags track by $index"></span>
                 <p>{{model.description}}</p>
                 <p><a ng-href="{{model.url}}" target="_blank">{{model.url}}</a></p>
                 <div ng-show="model.entries" ng-include="'match.entries.list.html'"></div>
@@ -68,6 +69,7 @@
             <input type="text" class="form-control" ng-model="model.name" placeholder="名前" />
             <input type="text" class="form-control" ng-model="model.description" placeholder="説明" />
             <input type="text" class="form-control" ng-model="model.url" placeholder="URL" />
+            <span ng-include="'tag.html'" ng-repeat="model in searchEntry(entry).tags track by $index"></span>
         </script>
 
         <script type="text/ng-template" id="match.entries.list.html">
@@ -159,6 +161,9 @@
                 <div ng-show="active_tab=='event'" ng-include="'edit.html'" ng-repeat="model in [model.event]"></div>
 
                 <div ng-show="active_tab=='entry'">
+                    <span ng-repeat="model in tags['entry'] track by $index">
+                        <span class="label label-default label-pill pull-xs-right">{{model.name}}({{model.count}})</span>
+                    </span>
                     <div ng-hide="selected.entry">
                         <div class="input-group">
                             <span class="input-group-addon glyphicon glyphicon-search" id="entry-search-icon"></span>
