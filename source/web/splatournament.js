@@ -355,11 +355,16 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         $scope.repository = {};
         $scope.selected = {};
         $scope.cache = {};
-        $scope.model = $scope.model || {}
-        $scope.model.event = $scope.model.event || {}
+        $scope.model = $scope.model || {};
+        $scope.model.event = $scope.model.event || { type: "event" };
         $scope.makeSureId($scope.model.event);
-        $scope.repository.entry = $scope.model.entries = $scope.model.entries || []
-        $scope.repository.match = $scope.model.matches = $scope.model.matches || []
+        $scope.repository.entry = $scope.model.entries = $scope.model.entries || [];
+        $scope.repository.match = $scope.model.matches = $scope.model.matches || [];
+        angular.forEach(["entry", "match"], function (type, i) {
+            angular.forEach($scope.repository[type], function (object, i) {
+                object.type = type;
+            });
+        });
         $scope.initTag();
     };
     $scope.initTag = function () {
@@ -454,6 +459,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
     };
     $scope.addObject = function (type, object) {
         var sure_object = object || {};
+        sure_object.type = type;
         $scope.repository[type].push(sure_object);
         $scope.selectObject(type, sure_object);
     };
@@ -821,6 +827,39 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         };
         if ($scope.model.matches && 0 < $scope.model.matches.length) {
             update_tournament_tree(match_to_tree($scope.model.matches[$scope.model.matches.length -1]), $scope.showObject);
+        }
+    };
+
+    $scope.addTag = function (model, newTag) {
+        var tag = null;
+        for (var i = 0; i < $scope.tags[model.type].length; i++) {
+            if ($scope.tags[model.type][i].name == newTag) {
+                tag = $scope.tags[model.type][i];
+                break;
+            }
+        };
+        if (!tag) {
+            tag = { name: newTag, count: 0 };
+            $scope.tags[model.type].push(tag);
+        }
+
+        model.tags = model.tags || [];
+        if ($scope.arrayObjectIndexOf(model.tags, tag.name) < 0) {
+            model.tags.push(tag.name);
+            ++(tag.count);
+        } else {
+            //  TODO: 重複エラーを表示
+        }
+    }
+    $scope.toggleTag = function (model, tag) {
+        model.tags = model.tags || [];
+        var i = $scope.arrayObjectIndexOf(model.tags, tag.name);
+        if (0 <= i) {
+            model.tags.splice(i, 1);
+            --(tag.count);
+        } else {
+            model.tags.push(tag.name);
+            ++(tag.count);
         }
     };
 

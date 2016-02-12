@@ -69,7 +69,25 @@
             <input type="text" class="form-control" ng-model="model.name" placeholder="名前" />
             <input type="text" class="form-control" ng-model="model.description" placeholder="説明" />
             <input type="text" class="form-control" ng-model="model.url" placeholder="URL" />
-            <span ng-include="'tag.html'" ng-repeat="model in model.tags track by $index"></span>
+            <div ng-include="'tag.edit.html'" ng-show="tags[model.type]"></div>
+        </script>
+
+        <script type="text/ng-template" id="tag.edit.html">
+            <h4>タグ</h4>
+            <div class="input-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="タグ"
+                       ng-model="newTag" />
+                <span class="input-group-btn">
+                    <button class="btn btn-success" type="button" ng-click="addTag(model,newTag)"><span class="glyphicon glyphicon-plus"></span>追加</button>
+                </span>
+            </div>
+            <div>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-class="{'active': 0<=arrayObjectIndexOf(model.tags||[],tag.name)}" ng-repeat="tag in tags[model.type]" ng-click="toggleTag(model,tag)">{{tag.name}}</li>
+                </ul>
+            </div>
         </script>
 
         <script type="text/ng-template" id="match.entries.list.html">
@@ -156,6 +174,7 @@
                 </div>
             </div>
             <div ng-hide="is_loading">
+
                 <div ng-hide="active_tab" ng-include="'jumbotron.html'" ng-repeat="model in [viewmode?model.event:app]"></div>
 
                 <div ng-show="active_tab=='event'" ng-include="'edit.html'" ng-repeat="model in [model.event]"></div>
@@ -201,7 +220,7 @@
                             style="float:right">
                             チームの削除
                         </button>
-                        <div ng-include="'matches.list.html'" ng-repeat="model in [selected.entryMatches]"></div>
+                        <div ng-include="'matches.list.html'" ng-show="0<selected.entryMatches.length" ng-repeat="model in [selected.entryMatches]"></div>
                     </div>
                     <div ng-show="selected.entry && viewmode">
                         <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.entry]"></div>
