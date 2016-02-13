@@ -75,7 +75,7 @@
         <script type="text/ng-template" id="tag.edit.html">
             <h4>tag</h4>
             <button type="button" class="btn"
-                    ng-class="0<=arrayObjectIndexOf(model.tags||[],tag.name) ? 'btn-success': 'btn-default'"
+                    ng-class="0<=arrayObjectIndexOf(model.tags||[],tag.name) ? 'btn-primary': 'btn-default'"
                     ng-repeat="tag in tags[model.type]" ng-click="toggleTag(model,tag)">
                 <span class="glyphicon" ng-class="0<=arrayObjectIndexOf(model.tags||[],tag.name) ? 'glyphicon-check': 'glyphicon-unchecked'"></span>
                 {{tag.name}}
@@ -146,7 +146,7 @@
         </script>
 		
         <script type="text/ng-template" id="tag.html">
-            <span class="label label-default label-pill pull-xs-right">{{model}}</span>
+            <span class="label label-primary label-pill pull-xs-right"><span class="glyphicon glyphicon-tag tag-default"></span>{{model}}</span>
         </script>
 
 
@@ -183,7 +183,7 @@
                 <div ng-show="active_tab=='entry'">
                     <div ng-hide="selected.entry">
                         <span ng-repeat="model in tags['entry'] track by $index">
-                            <span class="label label-default label-pill pull-xs-right">{{model.name}}({{model.count}})</span>
+                            <span class="label label-default label-pill pull-xs-right"><span class="glyphicon glyphicon-tag tag-default"></span>{{model.name}}({{model.count}})</span>
                         </span>
                         <div class="input-group">
                             <span class="input-group-addon glyphicon glyphicon-search" id="entry-search-icon"></span>

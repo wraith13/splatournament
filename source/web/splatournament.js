@@ -540,7 +540,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         }
     }
     $scope.addEntry = function () {
-        $scope.addObject("entry", { tags: ["new", "4"] });
+        $scope.addObject("entry");
     };
     $scope.removeEntry = function (entry) {
         $scope.removeObject("entry", entry);
