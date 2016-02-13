@@ -826,25 +826,27 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
     };
 
     $scope.addTag = function (model) {
-        var tag = null;
-        for (var i = 0; i < $scope.tags[model.type].length; i++) {
-            if ($scope.tags[model.type][i].name == $scope.newTag) {
-                tag = $scope.tags[model.type][i];
-                break;
+        if ($scope.tags.new && 0 < $scope.tags.new.length) {
+            var tag = null;
+            for (var i = 0; i < $scope.tags[model.type].length; i++) {
+                if ($scope.tags[model.type][i].name == $scope.tags.new) {
+                    tag = $scope.tags[model.type][i];
+                    break;
+                }
+            };
+            if (!tag) {
+                tag = { name: $scope.tags.new, count: 0 };
+                $scope.tags[model.type].push(tag);
             }
-        };
-        if (!tag) {
-            tag = { name: $scope.newTag, count: 0 };
-            $scope.tags[model.type].push(tag);
-        }
 
-        model.tags = model.tags || [];
-        if ($scope.arrayObjectIndexOf(model.tags, tag.name) < 0) {
-            model.tags.push(tag.name);
-            ++(tag.count);
-            $scope.newTag = "";
-        } else {
-            //  TODO: 重複エラーを表示
+            model.tags = model.tags || [];
+            if ($scope.arrayObjectIndexOf(model.tags, tag.name) < 0) {
+                model.tags.push(tag.name);
+                ++(tag.count);
+                $scope.tags.new = "";
+            } else {
+                //  TODO: 重複エラーを表示
+            }
         }
     }
     $scope.toggleTag = function (model, tag) {
