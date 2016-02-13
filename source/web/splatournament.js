@@ -825,6 +825,10 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         }
     };
 
+    $scope.clearText = function (object, name) {
+        object[name] = "";
+    };
+
     $scope.addTag = function (model) {
         if ($scope.tags.new && 0 < $scope.tags.new.length) {
             var tag = null;

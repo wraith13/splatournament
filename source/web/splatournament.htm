@@ -123,6 +123,9 @@
                     placeholder="キーワード"
                     aria-describedby="match-search-icon"
                     ng-model="selected.matchSearch" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default glyphicon glyphicon-remove" type="button" ng-click="clearText(selected,'matchSearch')"></button>
+                </span>
             </div>
             <ul class="list-group">
 				<li
@@ -194,6 +197,9 @@
                                 aria-describedby="entry-search-icon"
                                 ng-model="selected.entrySearch"
                             />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default glyphicon glyphicon-remove" type="button" ng-click="clearText(selected,'entrySearch')"></button>
+                            </span>
                         </div>
                         <ul class="list-group">
                             <li
