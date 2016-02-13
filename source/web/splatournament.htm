@@ -73,20 +73,21 @@
         </script>
 
         <script type="text/ng-template" id="tag.edit.html">
-            <h4>タグ</h4>
+            <h4>tag</h4>
+            <button type="button" class="btn"
+                    ng-class="0<=arrayObjectIndexOf(model.tags||[],tag.name) ? 'btn-success': 'btn-default'"
+                    ng-repeat="tag in tags[model.type]" ng-click="toggleTag(model,tag)">
+                <span class="glyphicon" ng-class="0<=arrayObjectIndexOf(model.tags||[],tag.name) ? 'glyphicon-check': 'glyphicon-unchecked'"></span>
+                {{tag.name}}
+            </button>
             <div class="input-group">
                 <input type="text"
                        class="form-control"
                        placeholder="タグ"
                        ng-model="newTag" />
                 <span class="input-group-btn">
-                    <button class="btn btn-success" type="button" ng-click="addTag(model,newTag)"><span class="glyphicon glyphicon-plus"></span>追加</button>
+                    <button class="btn btn-success" type="button" ng-click="addTag(model)"><span class="glyphicon glyphicon-plus"></span>追加</button>
                 </span>
-            </div>
-            <div>
-                <ul class="list-group">
-                    <li class="list-group-item" ng-class="{'active': 0<=arrayObjectIndexOf(model.tags||[],tag.name)}" ng-repeat="tag in tags[model.type]" ng-click="toggleTag(model,tag)">{{tag.name}}</li>
-                </ul>
             </div>
         </script>
 
@@ -211,7 +212,6 @@
                         </ul>
                     </div>
                     <div ng-show="selected.entry && !viewmode">
-                        <div ng-include="'edit.html'" ng-repeat="model in [selected.entry]"></div>
                         <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
                         <button
                             type="button"
@@ -220,11 +220,14 @@
                             style="float:right">
                             チームの削除
                         </button>
+                        <div ng-include="'edit.html'" ng-repeat="model in [selected.entry]"></div>
+                        <h4>match</h4>
                         <div ng-include="'matches.list.html'" ng-show="0<selected.entryMatches.length" ng-repeat="model in [selected.entryMatches]"></div>
                     </div>
                     <div ng-show="selected.entry && viewmode">
-                        <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.entry]"></div>
                         <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
+                        <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.entry]"></div>
+                        <h4>match</h4>
                         <div ng-include="'matches.list.html'" ng-repeat="model in [selected.entryMatches]"></div>
                     </div>
                 </div>
@@ -278,13 +281,14 @@
                             </button>
                         </div>
                         <div ng-show="selected.match && !viewmode">
-                            <div ng-include="'edit.html'" ng-repeat="model in [selected.match]"></div>
                             <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectMatch(null)">戻る</button>
+                            <div ng-include="'edit.html'" ng-repeat="model in [selected.match]"></div>
+                            <h4>entry</h4>
                             <div ng-show="model.entries" ng-include="'match.entries.list.html'" ng-repeat="model in [selected.match]"></div>
                         </div>
                         <div ng-show="selected.match && viewmode">
-                            <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.match]"></div>
                             <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectMatch(null)">戻る</button>
+                            <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.match]"></div>
                         </div>
                     </div>
                 </div>

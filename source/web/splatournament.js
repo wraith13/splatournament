@@ -360,11 +360,6 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         $scope.makeSureId($scope.model.event);
         $scope.repository.entry = $scope.model.entries = $scope.model.entries || [];
         $scope.repository.match = $scope.model.matches = $scope.model.matches || [];
-        angular.forEach(["entry", "match"], function (type, i) {
-            angular.forEach($scope.repository[type], function (object, i) {
-                object.type = type;
-            });
-        });
         $scope.initTag();
     };
     $scope.initTag = function () {
@@ -830,16 +825,16 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         }
     };
 
-    $scope.addTag = function (model, newTag) {
+    $scope.addTag = function (model) {
         var tag = null;
         for (var i = 0; i < $scope.tags[model.type].length; i++) {
-            if ($scope.tags[model.type][i].name == newTag) {
+            if ($scope.tags[model.type][i].name == $scope.newTag) {
                 tag = $scope.tags[model.type][i];
                 break;
             }
         };
         if (!tag) {
-            tag = { name: newTag, count: 0 };
+            tag = { name: $scope.newTag, count: 0 };
             $scope.tags[model.type].push(tag);
         }
 
@@ -847,6 +842,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
         if ($scope.arrayObjectIndexOf(model.tags, tag.name) < 0) {
             model.tags.push(tag.name);
             ++(tag.count);
+            $scope.newTag = "";
         } else {
             //  TODO: 重複エラーを表示
         }
