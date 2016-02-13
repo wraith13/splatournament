@@ -20,6 +20,14 @@ body {
     font-size:xx-small;
     padding-right:3px;
 }
+.tag-selector {
+    padding-right:8px;
+}
+.input-group ul.right {
+    left:auto;
+    right:0px;
+    min-width:60px;
+}
 
 /* ui.bootstrap fix */
 .pull-xs-right {
