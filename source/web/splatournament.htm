@@ -115,35 +115,7 @@
         </script>
 
         <script type="text/ng-template" id="matches.list.html">
-            <div class="input-group">
-                <span class="input-group-addon glyphicon glyphicon-search" id="match-search-icon"></span>
-                <input
-                    type="text"
-                    class="form-control"
-                    placeholder="キーワード"
-                    aria-describedby="match-search-icon"
-                    ng-model="selected.matchSearch" />
-                <span class="input-group-btn">
-                    <button class="btn btn-default glyphicon glyphicon-remove" type="button" ng-click="clearText(selected,'matchSearch')"></button>
-                </span>
-                <div class="input-group-btn">
-                    <div class="btn-group" uib-dropdown>
-                        <button id="match-tag-filter" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">
-                            <span class="glyphicon glyphicon-tags tag-selector"></span>All
-                            <span class="caret"></span>
-                        </button>
-                        <ul uib-dropdown-menu role="menu" aria-labelledby="match-tag-filter" class="right">
-                            <li role="menuitem"><a href="#"><span class="glyphicon glyphicon-tags tag-selector"></span>All</a></li>
-                            <li class="divider"></li>
-                            <li role="menuitem" ng-repeat="model in tags['entry'] track by $index">
-                                <a href="#">
-                                    <span class="glyphicon glyphicon-tag tag-selector"></span>{{model.name}}({{model.count}})
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <div ng-include="'filter.html'" ng-repeat="type in ['match']"></div>
             <ul class="list-group">
 				<li
                     ng-include="'entries.list.item.html'"
@@ -169,6 +141,36 @@
             <span class="label label-primary label-pill pull-xs-right"><span class="glyphicon glyphicon-tag tag-default"></span>{{model}}</span>
         </script>
 
+        <script type="text/ng-template" id="filter.html">
+            <div class="input-group">
+                <span class="input-group-addon glyphicon glyphicon-search" id="entry-search-icon"></span>
+                <input type="text"
+                       class="form-control"
+                       placeholder="キーワード"
+                       aria-describedby="entry-search-icon"
+                       ng-model="selected[type+'Search']" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default glyphicon glyphicon-remove" type="button" ng-click="clearText(selected,type+'Search')"></button>
+                </span>
+                <div class="input-group-btn" ng-show="tags[type].length">
+                    <div class="btn-group" uib-dropdown>
+                        <button id="match-tag-filter" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">
+                            <span class="glyphicon glyphicon-tags tag-selector"></span>All
+                            <span class="caret"></span>
+                        </button>
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="match-tag-filter" class="right">
+                            <li role="menuitem"><a href="#"><span class="glyphicon glyphicon-tags tag-selector"></span>All</a></li>
+                            <li class="divider"></li>
+                            <li role="menuitem" ng-repeat="model in tags[type] track by $index">
+                                <a href="#">
+                                    <span class="glyphicon glyphicon-tag tag-selector"></span>{{model.name}}({{model.count}})
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </script>
 
         <div class="container theme-showcase" role="main">
 
@@ -202,37 +204,7 @@
 
                 <div ng-show="active_tab=='entry'">
                     <div ng-hide="selected.entry">
-                        <div class="input-group">
-                            <span class="input-group-addon glyphicon glyphicon-search" id="entry-search-icon"></span>
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="キーワード"
-                                aria-describedby="entry-search-icon"
-                                ng-model="selected.entrySearch"
-                            />
-                            <span class="input-group-btn">
-                                <button class="btn btn-default glyphicon glyphicon-remove" type="button" ng-click="clearText(selected,'entrySearch')"></button>
-                            </span>
-
-                            <div class="input-group-btn">
-                                <div class="btn-group" uib-dropdown>
-                                    <button id="enter-tag-filter" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">
-                                        <span class="glyphicon glyphicon-tags tag-selector"></span>All
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul uib-dropdown-menu role="menu" aria-labelledby="enter-tag-filter" class="right">
-                                        <li role="menuitem"><a href="#"><span class="glyphicon glyphicon-tags tag-selector"></span>All</a></li>
-                                        <li class="divider"></li>
-                                        <li role="menuitem" ng-repeat="model in tags['entry'] track by $index">
-                                            <a href="#">
-                                                <span class="glyphicon glyphicon-tag tag-selector"></span>{{model.name}}({{model.count}})
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <div ng-include="'filter.html'" ng-repeat="type in ['entry']"></div>
 
                         <ul class="list-group">
                             <li
