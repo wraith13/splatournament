@@ -545,13 +545,26 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
     $scope.removeEntry = function (entry) {
         $scope.removeObject("entry", entry);
     };
+    $scope.filterByTag = function (object) {
+        var result = true;
+        var filterTags = $scope.getFilterTags(object.type);
+        if (filterTags) {
+            angular.forEach(filterTags, function (tag, i) {
+                if ($scope.arrayObjectIndexOf(object.tags || [], tag.name) < 0) {
+                    result = false;
+                }
+            });
+        }
+        return result;
+    };
     $scope.filterEntry = function (value, index, array) {
         var search = $scope.selected.entrySearch;
-        return !(search) ||
+        return (!(search) ||
             0 == search.length ||
             0 <= (value.name || "").indexOf(search) ||
             0 <= (value.description || "").indexOf(search) ||
-            0 <= (value.url || "").indexOf(search);
+            0 <= (value.url || "").indexOf(search)) &&
+            $scope.filterByTag(value);
     }
 
     //  match
@@ -782,6 +795,9 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
                     }
                 }
             });
+        }
+        if (!result) {
+            result = $scope.filterByTag(value);
         }
         return result;
     }

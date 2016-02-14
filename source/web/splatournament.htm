@@ -154,7 +154,7 @@
                 </span>
                 <div class="input-group-btn" ng-show="tags[type].length">
                     <div class="btn-group" uib-dropdown>
-                        <button id="match-tag-filter" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled">
+                        <button id="match-tag-filter" type="button" class="btn" uib-dropdown-toggle ng-disabled="disabled" ng-class="selected[type + 'FilterTagsLabel'] && 1<=selected[type + 'FilterTags'].length ? 'btn-primary': 'btn-default'">
                             <span class="glyphicon tag-selector" ng-class="selected[type + 'FilterTags'] && 1==selected[type + 'FilterTags'].length ? 'glyphicon-tag': 'glyphicon-tags'"></span>
                             <span ng-hide="selected[type + 'FilterTagsLabel']">All</span>
                             {{selected[type + 'FilterTagsLabel']}}
