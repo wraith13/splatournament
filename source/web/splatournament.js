@@ -864,6 +864,38 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
             ++(tag.count);
         }
     };
+    $scope.getFilterTags = function (type) {
+        return $scope.selected[type + 'FilterTags'] = $scope.selected[type + 'FilterTags'] || [];
+    }
+    $scope.updateFilterTag = function (type) {
+        var filterTags = $scope.getFilterTags(type);
+        if (0 < filterTags.length) {
+            $scope.selected[type + 'FilterTagsLabel'] = "";
+            angular.forEach(filterTags, function (tag, i) {
+                if (0 < $scope.selected[type + 'FilterTagsLabel'].length) {
+                    $scope.selected[type + 'FilterTagsLabel'] += ",";
+                }
+                $scope.selected[type + 'FilterTagsLabel'] += tag.name;
+            });
+        } else {
+            $scope.selected[type + 'FilterTagsLabel'] = null;
+        }
+    };
+    $scope.clearFilterTag = function (type) {
+        var filterTags = $scope.getFilterTags(type);
+        filterTags.splice(0, filterTags.length);
+        $scope.updateFilterTag(type);
+    };
+    $scope.toggleFilterTag = function (type, tag) {
+        var filterTags = $scope.getFilterTags(type);
+        var i = $scope.arrayObjectIndexOf(filterTags, tag);
+        if (0 <= i) {
+            filterTags.splice(i, 1);
+        } else {
+            filterTags.push(tag);
+        }
+        $scope.updateFilterTag(type);
+    };
 
     $scope.regulateModel();
 
