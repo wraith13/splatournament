@@ -57,8 +57,8 @@
 
         <script type="text/ng-template" id="jumbotron.html">
             <div class="jumbotron">
-                <h1>{{model.name}}</h1>
                 <span ng-include="'tag.html'"></span>
+                <h1>{{model.name}}</h1>
                 <p>{{model.description}}</p>
                 <p><a ng-href="{{model.url}}" target="_blank">{{model.url}}</a></p>
                 <div ng-show="model.entries" ng-include="'match.entries.list.html'"></div>
