@@ -169,6 +169,9 @@
       "level": 1,
       "winners": [
         "2ad03454-1c6d-4343-abc3-a7e73e18943b"
+      ],
+      "tags": [
+        "完封"
       ]
     },
     {
@@ -183,6 +186,9 @@
       "level": 1,
       "winners": [
         "842917a0-09b6-4fe6-828e-55be50212a81"
+      ],
+      "tags": [
+        "延長戦"
       ]
     },
     {
@@ -197,7 +203,11 @@
       "level": 1,
       "winners": [
         "abd8be75-f3cd-4641-8886-eb2bc70cf8c5"
-      ]
+      ],
+      "tags": [
+        "不戦勝"
+      ],
+      "description": "会議が長引いた為、シオノメ油田経営陣のチームメンバーが揃わずネギトロ炭鉱の不戦勝"
     },
     {
       "type": "match",
@@ -211,7 +221,8 @@
       "level": 1,
       "winners": [
         "fab3ec09-4e5e-4e69-9483-d452acabdbcd"
-      ]
+      ],
+      "description": ""
     },
     {
       "type": "match",
@@ -225,6 +236,9 @@
       "level": 1,
       "winners": [
         "7cea17b1-01d5-4be0-8296-aa59276673ac"
+      ],
+      "tags": [
+        "完封"
       ]
     },
     {
@@ -253,7 +267,9 @@
       "level": 1,
       "winners": [
         "ffeead21-c0d1-433f-9c8b-3e9d2e7c6c30"
-      ]
+      ],
+      "tags": [],
+      "description": ""
     },
     {
       "type": "match",
@@ -295,7 +311,8 @@
       "level": 2,
       "winners": [
         "929b66ed-b763-4497-8f5c-50175cb05863"
-      ]
+      ],
+      "description": "双方一人ずつ欠けた状態での変則マッチ"
     },
     {
       "type": "match",

@@ -133,11 +133,13 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
 
     //  http://stackoverflow.com/questions/23120077/how-to-get-the-indexof-an-object-within-an-angularjs-response-object-collection
     $scope.arrayObjectIndexOf = function (arr, obj) {
-        for (var i = 0; i < arr.length; i++) {
-            if (angular.equals(arr[i], obj)) {
-                return i;
+        if (arr) {
+            for (var i = 0; i < arr.length; i++) {
+                if (angular.equals(arr[i], obj)) {
+                    return i;
+                }
             }
-        };
+        }
         return -1;
     }
 
