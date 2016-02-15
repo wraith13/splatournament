@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "version", "version", "{A3AA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{49E9B0BD-D925-4DB3-9F1E-68AB23D7A7E0}"
 	ProjectSection(SolutionItems) = preProject
+		source\web\sample.json = source\web\sample.json
 		source\web\splatournament.css = source\web\splatournament.css
 		source\web\splatournament.htm = source\web\splatournament.htm
 		source\web\splatournament.js = source\web\splatournament.js
