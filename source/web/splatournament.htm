@@ -75,7 +75,7 @@
         <script type="text/ng-template" id="tag.edit.html">
             <h4>tag</h4>
             <button type="button" class="btn"
-                    ng-class="0<=arrayObjectIndexOf(model.tags,tag.name) ? 'btn-primary': 'btn-default'"
+                    ng-class="0<=arrayObjectIndexOf(model.tags,tag.name) ? (model.type=='match' ? 'btn-success': 'btn-primary'): 'btn-default'"
                     ng-repeat="tag in tags[model.type]" ng-click="toggleTag(model,tag)">
                 <span class="glyphicon" ng-class="0<=arrayObjectIndexOf(model.tags,tag.name) ? 'glyphicon-check': 'glyphicon-unchecked'"></span>
                 {{tag.name}}
