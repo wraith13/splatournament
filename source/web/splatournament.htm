@@ -196,9 +196,23 @@
             </div>
             <div ng-hide="is_loading">
 
-                <div ng-hide="active_tab" ng-include="'jumbotron.html'" ng-repeat="model in [viewmode?model.event:app]"></div>
+                <div ng-hide="active_tab">
+                    <div ng-include="'jumbotron.html'" ng-repeat="model in [viewmode?model.event:app]"></div>
 
-                <div ng-show="active_tab=='event'" ng-include="'edit.html'" ng-repeat="model in [model.event]"></div>
+                    <div ng-hide="viewmode">
+                        <button type="button" class='btn btn-primary btn-lg btn-block' ng-click="selectTab('event')">イベント作成する</button>
+                    </div>
+                    <div ng-show="viewmode">
+                        <button type="button" class='btn btn-primary btn-lg btn-block' ng-click="selectTab('entry')">参加チーム一覧を見る</button>
+                        <button type="button" class='btn btn-primary btn-lg btn-block' ng-click="selectTab('match')">試合一覧を見る</button>
+                        <button type="button" class='btn btn-primary btn-lg btn-block' ng-click="selectTab('tree')">トーナメントツリーを見る</button>
+                    </div>
+                </div>
+
+                <div ng-show="active_tab=='event'">
+                    <div ng-include="'edit.html'" ng-repeat="model in [model.event]"></div>
+                    <button type="button" class='btn btn-primary btn-lg btn-block' ng-click="selectTab('entry')">参加チームを登録する</button>
+                </div>
 
                 <div ng-show="active_tab=='entry'">
                     <div ng-hide="selected.entry">
@@ -219,6 +233,8 @@
                                 ng-click="selectEntry(model)">
                             </li>
                         </ul>
+                        <button ng-show="viewmode" type="button" class='btn btn-primary btn-lg btn-block' ng-click="selectTab('match')">試合一覧を見る</button>
+                        <button ng-show="!viewmode&&2<=(mode.entries||[]).length" type="button" class='btn btn-primary btn-lg btn-block' ng-click="selectTab('match')">試合一覧の作成する</button>
                     </div>
                     <div ng-show="selected.entry && !viewmode">
                         <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
@@ -288,6 +304,7 @@
                             <button type="button" class='btn btn-danger' style="float:right" ng-click="remakeMatch()" ng-hide="viewmode">
                                 現在の抽選を全て破棄して抽選の再実行
                             </button>
+                            <button type="button" class='btn btn-primary btn-lg btn-block' ng-click="selectTab('tree')">トーナメントツリーを見る</button>
                         </div>
                         <div ng-show="selected.match && !viewmode">
                             <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectMatch(null)">戻る</button>
