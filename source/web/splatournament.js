@@ -111,7 +111,7 @@ app.directive('jsonText', function() {
     };
 });
 
-app.controller("splatornament", function ($rootScope, $scope, $http, $location, $filter, uuid2) {
+app.controller("splatornament", function ($rootScope, $window, $scope, $http, $location, $filter, uuid2) {
 
     //  http://stackoverflow.com/questions/20789373/shuffle-array-in-ng-repeat-angular
     $scope.shuffleArray = function (array) {
@@ -633,40 +633,32 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
     };
 
     //  tree
+    var vis = d3.select("#chart").append("svg").append("g");
+    
+    angular.element($window).on('resize', function () { $scope.update_tree(); });
     $scope.update_tree = function () {
-        var match_to_tree = function (match) {
-            var result = {
-                name: match.name,
-                entries: []
-            };
-            angular.forEach(match.entries, function (entry, i) {
-                var sub_result = null;
-                var sub_match = $scope.getMatch(entry);
-                if (sub_match) {
-                    sub_result = match_to_tree(sub_match);
-                    sub_result.original_id = sub_match.id;
-                } else {
-                    var sub_entry = $scope.getEntry(entry);
-                    sub_result = { name: sub_entry.name };
-                    sub_result.original_id = sub_entry.id;
-                }
-                sub_result.is_winner = match.winners && 0 <= match.winners.indexOf(entry);
-                result.entries.push(sub_result);
-            });
-            return result;
-        };
         if ($scope.model.matches && 0 < $scope.model.matches.length) {
-            var height_count = $scope.model.entries.length - ($scope.unmatches || []).length;
-            var width_count = $scope.model.matches[$scope.model.matches.length -1].level +1;
+            var document_height = document.documentElement.clientHeight * 0.8;
+            var document_width = Math.min(1140, document.documentElement.clientWidth);
+            if (720 < document_width && document_width < 1140) {
+                document_width = 720;
+            }
 
-            var margin = { top: 30, right: 10, bottom: 10, left: 10 },
+            var height_count = $scope.model.entries.length - ($scope.unmatches || []).length;
+            var width_count = $scope.model.matches[$scope.model.matches.length -1].level +2;
+
+            var height_unit = Math.max(document_height / height_count, 48);
+            var width_unit = Math.max(document_width / (width_count +1), 64);
+
+            //var margin = { top: 30, right: 10, bottom: 10, left: 10 },
+            var margin = { top: 0, right: 0, bottom: 0, left: 0 },
                 //width = screen.width - margin.left - margin.right,
-                width = (width_count * 180) - margin.left - margin.right,
+                width = (width_count * width_unit) - margin.left - margin.right,
                 //halfWidth = width / 2,
-                halfWidth = width,
-                height = (height_count * 60) - margin.top - margin.bottom,
+                halfWidth = width - (width_unit *0.5),
+                height = (height_count * height_unit) - margin.top - margin.bottom,
                 i = 0,
-                duration = 500,
+                duration = 1500,
                 root;
 
             var getChildren = function (d) {
@@ -683,7 +675,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
                 .size([height, width]);
 
             var diagonal = d3.svg.diagonal()
-                .projection(function (d) { return [d.y, d.x]; });
+                .projection(function (d) { return [halfWidth -(d.y - halfWidth), d.x]; });
             var elbow = function (d, i) {
                 var source = calcLeft(d.source);
                 var target = calcLeft(d.target);
@@ -694,6 +686,7 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
                         + "V" + target.x + "H" + target.y;
             };
             var connector = elbow;
+            //var connector = diagonal
 
             var calcLeft = function (d) {
                 var l = d.y;
@@ -704,11 +697,12 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
                 return { x: d.x, y: l };
             };
 
-            var vis = d3.select("#chart").append("svg")
+            d3.select("#chart svg")
+                .attr("left", 0)
                 .attr("width", width + margin.right + margin.left)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                .attr("height", height + margin.top + margin.bottom);
+                //.append("g")
+                //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             var update_tournament_tree = function (json, showObject) {
                 root = json;
@@ -716,6 +710,10 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
                 root.y0 = width / 2;
 
                 var t1 = d3.layout.tree().size([height, halfWidth]).children(function (d) { return d.entries; });
+                t1.separation(function (a, b) {
+                    // default code is return a.parent == b.parent ? 1 : 2;
+                    return 1;
+                });
                 t1.nodes(root);
 
                 var rebuildChildren = function (node) {
@@ -737,12 +735,12 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
                 return arr;
             };
 
-            function update(source, showObject) {
+            var update = function (source, showObject) {
                 // Compute the new tree layout.
                 var nodes = toArray(source);
 
                 // Normalize for fixed-depth.
-                nodes.forEach(function (d) { d.y = d.depth * 180 + halfWidth; });
+                nodes.forEach(function (d) { d.y = d.depth * width_unit + halfWidth; });
 
                 // Update the nodes…
                 var node = vis.selectAll("g.node")
@@ -779,7 +777,8 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
                     .style("fill", function (d) { return d._children ? "lightsteelblue" : "#fff"; });
 
                 nodeUpdate.select("text")
-                    .style("fill-opacity", 1);
+                    //.style("fill-opacity", 1);
+                    .style("fill-opacity", function (d) { return d.is_loser ? 0.5 : 1; });
 
                 // Transition exiting nodes to the parent's new position.
                 var nodeExit = node.exit().transition()
@@ -810,6 +809,9 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
                 // Transition links to their new position.
                 link.transition()
                     .duration(duration)
+                    .attr("class", function (d) {
+                        return (d.target.is_winner || (d.source.is_winner && 1 == d.source.entries.length)) ? "link winner" : "link";
+                    })
                     .attr("d", connector);
 
                 // Transition exiting nodes to the parent's new position.
@@ -843,7 +845,42 @@ app.controller("splatornament", function ($rootScope, $scope, $http, $location, 
             }
             //d3.json("bracket.json", update_tournament_tree);
 
-            update_tournament_tree(match_to_tree($scope.model.matches[$scope.model.matches.length -1]), $scope.showObject);
+            var match_to_tree = function (match, is_winner, is_loser) {
+                var result = {
+                    name: match.name,
+                    entries: [],
+                    is_winner: is_winner,
+                    is_loser: is_loser
+                };
+                angular.forEach(match.entries, function (entry, i) {
+                    var sub_is_winner = false;
+                    var sub_is_loser = is_loser;
+                    if (match.winners && 0 < match.winners.length) {
+                        if (0 <= match.winners.indexOf(entry)) {
+                            sub_is_winner = true;
+                        } else {
+                            sub_is_loser = true;
+                        }
+                    }
+                    var sub_result = null;
+                    var sub_match = $scope.getMatch(entry);
+                    if (sub_match) {
+                        sub_result = match_to_tree(sub_match, sub_is_winner, sub_is_loser);
+                        sub_result.original_id = sub_match.id;
+                    } else {
+                        var sub_entry = $scope.getEntry(entry);
+                        sub_result = {
+                            name: sub_entry.name,
+                            is_winner: sub_is_winner,
+                            is_loser: sub_is_loser
+                        };
+                        sub_result.original_id = sub_entry.id;
+                    }
+                    result.entries.push(sub_result);
+                });
+                return result;
+            };
+            update_tournament_tree(match_to_tree($scope.model.matches[$scope.model.matches.length - 1], false, false), $scope.showObject);
         }
     };
 

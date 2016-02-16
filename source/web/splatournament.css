@@ -39,6 +39,17 @@ body {
     border-radius: 10rem;
 }
 
+/* chart */
+#chart {
+    text-align: center; /* その他の正しいとされるセンタリングをいくつか試してみたが正常に機能せず */
+}
+#chart svg {
+    margin-top: -20px;
+    margin-bottom: -28px;
+    padding-top: 8px;
+    background-color: #FFFFFF;
+}
+
 /* tree */
 .node circle {
     cursor: pointer;
