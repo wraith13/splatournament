@@ -615,7 +615,7 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
                 }
             });
         }
-        if (!result) {
+        if (result) {
             result = $scope.filterByTag(value);
         }
         return result;
