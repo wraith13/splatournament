@@ -638,25 +638,26 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
     angular.element($window).on('resize', function () { $scope.update_tree(); });
     $scope.update_tree = function () {
         if ($scope.model.matches && 0 < $scope.model.matches.length) {
-            var document_height = document.documentElement.clientHeight * 0.8;
-            var document_width = Math.min(1140, document.documentElement.clientWidth);
-            if (720 < document_width && document_width < 1140) {
-                document_width = 720;
-            }
+            var document_height = document.documentElement.clientHeight -204;
+            var document_width = document.documentElement.clientWidth;
 
-            var height_count = $scope.model.entries.length - ($scope.unmatches || []).length;
-            var width_count = $scope.model.matches[$scope.model.matches.length -1].level +2;
+            var height_count = ($scope.model.entries.length - ($scope.unmatches || []).length);
+            var width_count = $scope.model.matches[$scope.model.matches.length -1].level +2.0;
 
-            var height_unit = Math.max(document_height / height_count, 48);
-            var width_unit = Math.max(document_width / (width_count +1), 64);
+            var height_base_unit = 32;
+            var width_base_unit = 64;
+
+            var height_unit = Math.max(document_height / height_count, height_base_unit);
+            var width_unit = Math.max(document_width / width_count, 64);
+            var font_size = 12 * (1 + (((width_unit - width_base_unit) / width_base_unit) + ((height_unit - height_base_unit) / (height_base_unit * 2))) / 4);
 
             //var margin = { top: 30, right: 10, bottom: 10, left: 10 },
-            var margin = { top: 0, right: 0, bottom: 0, left: 0 },
+            var margin = { top: 32, right: 0, bottom: 16, left: 0 },
                 //width = screen.width - margin.left - margin.right,
-                width = (width_count * width_unit) - margin.left - margin.right,
+                width = (width_count * width_unit),
                 //halfWidth = width / 2,
-                halfWidth = width - (width_unit *0.5),
-                height = (height_count * height_unit) - margin.top - margin.bottom,
+                halfWidth = width - (width_unit * 0.75),
+                height = (height_count * height_unit),
                 i = 0,
                 duration = 1500,
                 root;
@@ -673,6 +674,7 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
 
             var tree = d3.layout.tree()
                 .size([height, width]);
+            vis.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             var diagonal = d3.svg.diagonal()
                 .projection(function (d) { return [halfWidth -(d.y - halfWidth), d.x]; });
@@ -706,8 +708,8 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
 
             var update_tournament_tree = function (json, showObject) {
                 root = json;
-                root.x0 = height / 2;
-                root.y0 = width / 2;
+                root.x0 = height / 2 +margin.left;
+                root.y0 = width / 2 +margin.top;
 
                 var t1 = d3.layout.tree().size([height, halfWidth]).children(function (d) { return d.entries; });
                 t1.separation(function (a, b) {
@@ -765,6 +767,7 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
                         if (d.name) { showObject(d.original_id) }
                     })
                     .text(function (d) { return d.name; })
+                    .attr("font-size", 1)
                     .style("fill-opacity", 1e-6);
 
                 // Transition nodes to their new position.
@@ -777,6 +780,7 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
                     .style("fill", function (d) { return d._children ? "lightsteelblue" : "#fff"; });
 
                 nodeUpdate.select("text")
+                    .attr("font-size", font_size)
                     //.style("fill-opacity", 1);
                     .style("fill-opacity", function (d) { return d.is_loser ? 0.5 : 1; });
 
@@ -790,6 +794,7 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
                     .attr("r", 1e-6);
 
                 nodeExit.select("text")
+                    .attr("font-size", 1)
                     .style("fill-opacity", 1e-6);
 
                 // Update the links...
