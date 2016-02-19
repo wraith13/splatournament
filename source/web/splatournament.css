@@ -13,6 +13,7 @@ body {
 .body {
     background-color:#FFFFFF;
     padding-bottom:24px;
+    min-height:95vh;
 }
 
 /* tag */
