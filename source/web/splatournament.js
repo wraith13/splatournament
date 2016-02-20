@@ -387,6 +387,34 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
             $scope.filterByTag(value);
     }
 
+    //  member
+    $scope.selectMember = function (member) {
+        $scope.selectObject("member", member);
+
+        $scope.selected.memberMatches = [];
+        if ($scope.selected.member && $scope.model.matches) {
+            var match = $scope.selected.member;
+            while (match = $scope.getNextMatch(match.id)) {
+                $scope.selected.memberMatches.push(match);
+            }
+        }
+    }
+    $scope.addMember = function () {
+        $scope.addObject("member");
+    };
+    $scope.removeMember = function (member) {
+        $scope.removeObject("member", member);
+    };
+    $scope.filterMember = function (value, index, array) {
+        var search = $scope.selected.memberSearch;
+        return (!(search) ||
+            0 == search.length ||
+            0 <= (value.name || "").indexOf(search) ||
+            0 <= (value.description || "").indexOf(search) ||
+            0 <= (value.url || "").indexOf(search)) &&
+            $scope.filterByTag(value);
+    }
+
     //  match
     $scope.selectMatch = function (match) {
         if (match) {

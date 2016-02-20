@@ -269,35 +269,35 @@
                 </div>
 
                 <div ng-show="active_tab=='member'">
-                    <div ng-hide="selected.entry">
+                    <div ng-hide="selected.member">
                         <div ng-include="'filter.html'" ng-repeat="type in ['member']"></div>
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-success glyphicon glyphicon-plus"
-                                ng-click="addEntry()"
+                                ng-click="addMember()"
                                 ng-hide="viewmode">
                                 メンバーの追加
                             </li>
                             <li ng-include="'entries.list.item.html'"
                                 class="list-group-item"
                                 ng-class="{'active': model == selected.member}"
-                                ng-repeat="model in model.members | filter:filterEntry track by $index"
-                                ng-click="selectEntry(model)">
+                                ng-repeat="model in model.members | filter:filterMember track by $index"
+                                ng-click="selectMember(model)">
                             </li>
                         </ul>
                     </div>
-                    <div ng-show="selected.entry && !viewmode">
-                        <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
+                    <div ng-show="selected.member && !viewmode">
+                        <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectMember(null)">戻る</button>
                         <button type="button"
                                 class='btn btn-danger glyphicon glyphicon-trash'
-                                ng-click="removeEntry(selected.entry)"
+                                ng-click="removeMember(selected.member)"
                                 style="float:right">
                             メンバーの削除
                         </button>
-                        <div ng-include="'edit.html'" ng-repeat="model in [selected.entry]"></div>
+                        <div ng-include="'edit.html'" ng-repeat="model in [selected.member]"></div>
                     </div>
-                    <div ng-show="selected.entry && viewmode">
-                        <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectEntry(null)">戻る</button>
-                        <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.entry]"></div>
+                    <div ng-show="selected.member && viewmode">
+                        <button type="button" class='btn glyphicon glyphicon-chevron-left' ng-click="selectMember(null)">戻る</button>
+                        <div ng-include="'jumbotron.html'" ng-repeat="model in [selected.member]"></div>
                     </div>
                 </div>
 
