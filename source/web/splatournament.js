@@ -178,12 +178,13 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
         $scope.model.event = $scope.model.event || { type: "event" };
         $scope.makeSureId($scope.model.event);
         $scope.repository.entry = $scope.model.entries = $scope.model.entries || [];
+        $scope.repository.member = $scope.model.members = $scope.model.members || [];
         $scope.repository.match = $scope.model.matches = $scope.model.matches || [];
         $scope.initTag();
     };
     $scope.initTag = function () {
         $scope.tags = {};
-        angular.forEach(["entry", "match"], function (type, i) {
+        angular.forEach(["entry", "member", "match"], function (type, i) {
             $scope.tags[type] = [];
             var temp_repository = {};
             angular.forEach($scope.repository[type], function (object, i) {
@@ -208,7 +209,7 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
             $scope.model = data;
             $scope.regulateModel();
             $scope.viewmode = true;
-            $scope.tabs = ["entry", "match", "tree"];
+            $scope.tabs = ["entry", "member", "match", "tree"];
             $scope.selectTab($location.hash());
             $rootScope.title = $scope.app.name = $scope.model.event.name;
             $scope.is_loading = false;
@@ -221,7 +222,7 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
     //$scope.change = function () {
     //};
 
-    $scope.mastertabs = ["event", "entry", "match", "import", "export", "tree"];
+    $scope.mastertabs = ["event", "entry", "member", "match", "import", "export", "tree"];
     $scope.tabs = $scope.mastertabs;
     $scope.selectTab = function (tab) {
         $scope.selected = {};
