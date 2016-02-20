@@ -42,13 +42,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand visible-xs" href="#" ng-click="selectTab(null)">{{app.name}}</a>
+                    <a class="navbar-brand visible-xs" href="#" ng-click="selectTab(null)"><span class="glyphicon" ng-class="'glyphicon-'+tabIcon[app.type]"></span>{{app.name}}</a>
                 </div>
                 <nav class="navbar-collapse collapse" uib-collapse="!isCollapsed">
-                    <a href="#" role="button" class="navbar-brand" ng-click="selectTab()" ng-hide="isCollapsed">{{app.name}}</a>
+                    <a href="#" role="button" class="navbar-brand" ng-click="selectTab()" ng-hide="isCollapsed"><span class="glyphicon" ng-class="'glyphicon-'+tabIcon[app.type]"></span>{{app.name}}</a>
                     <ul class="nav navbar-nav" ng-hide="is_loading">
                         <li ng-class="active_tab == tab ? 'active': ''" ng-repeat="tab in tabs track by $index">
-                            <a href="#{{tab}}" ng-click="selectTab(tab)">{{tab}}</a>
+                            <a href="#{{tab}}" ng-click="selectTab(tab)"><span class="glyphicon" ng-class="'glyphicon-'+tabIcon[tab]"></span>{{tab}}</a>
                         </li>
                     </ul>
                 </nav>
@@ -58,7 +58,7 @@
         <script type="text/ng-template" id="jumbotron.html">
             <div class="jumbotron">
                 <span ng-include="'tag.html'"></span>
-                <h1>{{model.name}}</h1>
+                <h1><span class="glyphicon" ng-class="'glyphicon-'+tabIcon[model.type]"></span>{{model.name}}</h1>
                 <p>{{model.description}}</p>
                 <p><a ng-href="{{model.url}}" target="_blank">{{model.url}}</a></p>
                 <div ng-show="model.entries" ng-include="'match.entries.list.html'"></div>
@@ -100,10 +100,12 @@
                     <span ng-show="searchEntry(entry)">
                         <span ng-class="getMatchResultClass(model,entry)"></span>
                         <span ng-include="'tag.html'" ng-repeat="model in [searchEntry(entry)]"></span>
+                        <span class="glyphicon" ng-class="'glyphicon-'+tabIcon.entry"></span>
                         {{searchEntry(entry).name}}<span ng-hide="searchEntry(entry).name"><i>名称未設定</i></span>
                     </span>
                     <span ng-hide="searchEntry(entry)">
                         <span ng-include="'tag.html'" ng-repeat="model in [getMatch(entry)]"></span>
+                        <span class="glyphicon" ng-class="'glyphicon-'+tabIcon.match"></span>
                         {{getMatch(entry).name}} の勝者
                     </span>
                 </li>
@@ -125,7 +127,7 @@
 		
         <script type="text/ng-template" id="entries.list.item.html">
 			<span ng-include="'tag.html'"></span>
-			<h4 class="list-group-item-heading">{{model.name}}<span ng-hide="model.name"><i>名称未設定</i></span></h4>
+			<h4 class="list-group-item-heading"><span class="glyphicon" ng-class="'glyphicon-'+tabIcon[model.type]"></span>{{model.name}}<span ng-hide="model.name"><i>名称未設定</i></span></h4>
 			<div ng-show="model.entries" ng-include="'match.entries.list.html'" ng-repeat="model in [model]"></div>
 			<p class="list-group-item-text">{{model.description}}</p>
 			<p class="list-group-item-text" ng-show="model.url">

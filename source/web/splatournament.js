@@ -156,6 +156,7 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
     };
 
     $scope.app = {
+        type: "app",
         name: "splatournament",
         description: "このツールは Wii U 用ゲームソフト、『スプラトゥーン』で草の根的に行われる各種トーナメント形式での大会向けのトーナメント管理ツールです。",
         version: "X.XX.XXX"
@@ -212,6 +213,7 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
             $scope.tabs = ["entry", "member", "match", "tree"];
             $scope.selectTab($location.hash());
             $rootScope.title = $scope.app.name = $scope.model.event.name;
+            $scope.app.type = $scope.model.event.type;
             $scope.is_loading = false;
         }).error(function (data, status, headers, config) {
             $scope.addAlert({ type: 'danger', msg: 'インポート中にエラーが発生しました。 '});
@@ -222,6 +224,16 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
     //$scope.change = function () {
     //};
 
+    $scope.tabIcon = {
+        "app": "globe",
+        "event": "tower",
+        "entry":"flag",
+        "member":"user",
+        "match":"flash",
+        "import": "cloud-upload",
+        "export":"cloud-download",
+        "tree": "tree-conifer"
+    };
     $scope.mastertabs = ["event", "entry", "member", "match", "import", "export", "tree"];
     $scope.tabs = $scope.mastertabs;
     $scope.selectTab = function (tab) {
