@@ -958,6 +958,10 @@ app.controller("splatornament", function ($rootScope, $window, $scope, $http, $l
         object[name] = "";
     };
 
+    $scope.openCalendar = function (name) {
+        $scope.selected["opened" +name +"Calendar"] = true;
+    };
+
     $scope.addTag = function (model) {
         if ($scope.tags.new && 0 < $scope.tags.new.length) {
             var tag = null;
