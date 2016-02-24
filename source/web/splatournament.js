@@ -111,7 +111,7 @@ app.directive('jsonText', function() {
     };
 });
 
-app.controller("splatornament", function ($rootScope, $window, $scope, $http, $location, $filter, uuid2) {
+app.controller("splatournament", function ($rootScope, $window, $scope, $http, $location, $filter, uuid2) {
 
     //  http://stackoverflow.com/questions/20789373/shuffle-array-in-ng-repeat-angular
     $scope.shuffleArray = function (array) {
